@@ -1,1 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: #333;
+      padding: 1.5rem;
+    }
+
+    .card {
+      background: #ffffff;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      max-width: 420px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      margin-bottom: 0.75rem;
+      color: #1a202c;
+    }
+
+    p {
+      color: #718096;
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 2rem;
+    }
+
+    /* Styled redirect link/button */
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      background-color: #2563eb;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.85rem 1.75rem;
+      border-radius: 8px;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn:hover {
+      background-color: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Welcome to My Site</h1>
+    <p>Click the button below to continue to the main page.</p>
+
+    <!-- Replace 'target.html' with the path to your other HTML file -->
+    <a href="target.html" class="btn">Enter Site &rarr;</a>
+  </div>
+
+</body>
+</html>
