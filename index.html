@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome</title>
+  <title>Revision Resources</title>
   <style>
     * {
       box-sizing: border-box;
@@ -28,7 +28,7 @@
       border-radius: 12px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
       text-align: center;
-      max-width: 420px;
+      max-width: 440px;
       width: 100%;
     }
 
@@ -42,47 +42,55 @@
       color: #718096;
       font-size: 1rem;
       line-height: 1.5;
-      margin-bottom: 2rem;
+      margin-bottom: 1.75rem;
     }
 
-    /* Styled redirect link/button */
+    /* Stack buttons neatly with consistent spacing */
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    /* Styled redirect button */
     .btn {
-      display: inline-block;
+      display: block;
+      width: 100%;
       text-decoration: none;
       background-color: #2563eb;
       color: #ffffff;
       font-weight: 600;
       font-size: 1rem;
-      padding: 0.85rem 1.75rem;
+      padding: 0.85rem 1.25rem;
       border-radius: 8px;
-      transition: background-color 0.2s ease, transform 0.1s ease;
+      transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
       cursor: pointer;
       border: none;
     }
 
     .btn:hover {
       background-color: #1d4ed8;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
     }
 
     .btn:active {
       transform: translateY(0);
+      box-shadow: none;
     }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <h1>Welcome to My Site</h1>
-    <p>Click one of the buttons below to continue to the main content.</p>
+    <h1>Revision Resources</h1>
+    <p>Select a topic below to jump directly into the revision notes.</p>
 
-    <!-- Replace 'target.html' with the path to your other HTML file -->
-    <a href="System_Design_Teaching_Aid.html" class="btn">Distributed Systems</a>
-    <br>
-    <a href="System_Design_Teaching_Aid.html" class="btn">Android Development</a>
-    <br>
-    <a href="System_Design_Teaching_Aid.html" class="btn">Unity Development</a>
-    <br>
+    <div class="btn-group">
+      <a href="System_Design_Teaching_Aid.html" class="btn">Distributed Systems &rarr;</a>
+      <a href="Android_Development.html" class="btn">Android Development &rarr;</a>
+      <a href="Unity_Development.html" class="btn">Unity Development &rarr;</a>
+    </div>
   </div>
 
 </body>
