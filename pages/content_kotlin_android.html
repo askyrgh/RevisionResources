@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kotlin Revision — Interview Study Plan</title>
+<style>
+:root{
+  --bg:#FAFAF6; --ink:#1C1B1F; --muted:#5B5A63; --line:#E4E1D8;
+  --violet:#7F52FF; --card:#FFFFFF; --sidebar:#F1EFE9;
+  --t1:#7F52FF; --t2:#2E7D5B; --t3:#C96A00; --t4:#B23A48; --t0:#3D3B45; --tf:#0E7C86; --t5:#1565C0;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --bg:#151417; --ink:#EDEBF2; --muted:#A9A6B3; --line:#332F3C; --card:#1E1C22; --sidebar:#1A181F; }
+}
+:root[data-theme="dark"]{ --bg:#151417; --ink:#EDEBF2; --muted:#A9A6B3; --line:#332F3C; --card:#1E1C22; --sidebar:#1A181F; }
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 10px)}
+body{background:var(--bg); color:var(--ink); margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; line-height:1.55; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);}
+code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+a{color:var(--violet)}
+button{font-family:inherit}
+img,svg{max-width:100%}
+a:focus-visible, button:focus-visible{outline:3px solid var(--violet); outline-offset:2px}
+.skip{position:absolute;left:-999px;top:0;background:var(--violet);color:#fff;padding:.6em 1em;z-index:20}
+.skip:focus{left:10px;top:10px}
+header{border-bottom:1px solid var(--line); padding:1.1rem 1rem .9rem;}
+header .inner{max-width:1180px;margin:0 auto}
+h1{font-size:1.3rem; margin:0 0 .2rem}
+header p{color:var(--muted); margin:.2rem 0 0; max-width:70ch; font-size:.9rem}
+.layout{max-width:1180px; margin:0 auto; display:grid; grid-template-columns:260px minmax(0,1fr); gap:1rem; padding:1rem;}
+nav[role="tablist"]{display:flex; flex-direction:column; gap:.1rem; background:var(--sidebar); border:1px solid var(--line); border-radius:10px; padding:.6rem; align-self:start; position:sticky; top:.6rem; max-height:calc(100vh - 1.2rem); overflow-y:auto;}
+.group-label{font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); padding:.7rem .5rem .2rem; font-weight:700;}
+.group-label:first-child{padding-top:.2rem}
+.subgroup-label{font-size:.72rem; color:var(--muted); padding:.4rem .5rem .1rem 1.1rem; font-weight:600; opacity:.85;}
+.subgroup-wrap{border-left:2px dotted var(--line); margin-left:.6rem; padding-left:.1rem;}
+[role="tab"]{
+  all:unset; cursor:pointer; padding:.5rem .6rem; border-radius:6px; font-size:.87rem;
+  border-left:3px solid transparent; display:block; color:var(--ink); min-height:38px;
+}
+[role="tab"].nested{padding-left:1.3rem; font-size:.84rem}
+[role="tab"].nested2{padding-left:1.9rem; font-size:.82rem}
+[role="tab"]:hover{background:var(--bg)}
+[role="tab"][aria-selected="true"]{background:var(--card); border-left-color:var(--tab-color,var(--violet)); font-weight:600;}
+[role="tabpanel"]{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1.2rem 1.4rem; min-height:200px; max-width:100%; overflow-wrap:break-word;}
+[role="tabpanel"]:focus-visible{outline:none}
+[role="tabpanel"] h2{margin-top:0; font-size:1.2rem; border-bottom:2px solid var(--panel-color,var(--violet)); padding-bottom:.4rem;}
+.tag{display:inline-block; font-size:.72rem; color:var(--muted); border:1px solid var(--line); border-radius:20px; padding:.1rem .6rem; margin-bottom:.8rem;}
+.def{background:var(--bg); border:1px solid var(--line); border-radius:6px; padding:.6rem .8rem; margin:.6rem 0; font-size:.93rem}
+.def b{color:var(--panel-color,var(--violet))}
+h3{font-size:1rem; margin:1.1rem 0 .3rem}
+p{margin:.5rem 0}
+ul, ol{margin:.4rem 0; padding-left:1.2rem}
+li{margin-bottom:.25rem}
+pre{background:var(--bg); border:1px solid var(--line); border-radius:6px; padding:.7rem .9rem; overflow-x:auto; font-size:.82rem; margin:.6rem 0; line-height:1.45; max-width:100%;}
+code{background:var(--bg); padding:.1em .35em; border-radius:4px; font-size:.87em; word-break:break-word;}
+pre code{background:none;padding:0}
+.flow{background:var(--bg); border:1px dashed var(--panel-color,var(--violet)); border-radius:6px; padding:.6rem .9rem; overflow-x:auto; font-size:.8rem; margin:.6rem 0; white-space:pre; line-height:1.5;}
+.app{background:var(--bg); border-left:3px solid var(--panel-color,var(--violet)); padding:.5rem .8rem; font-size:.89rem; margin:.7rem 0; border-radius:0 6px 6px 0;}
+.app b{color:var(--panel-color,var(--violet))}
+.connect{font-size:.84rem; color:var(--muted); margin-top:.9rem; border-top:1px dashed var(--line); padding-top:.5rem}
+.connect b{color:var(--ink)}
+.table-scroll{overflow-x:auto; margin:.6rem 0; -webkit-overflow-scrolling:touch;}
+table{border-collapse:collapse; width:100%; min-width:420px; font-size:.85rem; margin:0}
+th,td{border:1px solid var(--line); padding:.4rem .55rem; text-align:left; vertical-align:top}
+th{background:var(--bg)}
+footer{text-align:center; color:var(--muted); font-size:.85rem; padding:1.6rem 1rem}
+.mobile-bar{display:none}
+.menu-btn{all:unset; display:flex; align-items:center; gap:.45rem; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:.5rem .8rem; font-size:.9rem; color:var(--ink); cursor:pointer;}
+.menu-btn .bars{font-size:1rem; line-height:1}
+.current-label{font-size:.85rem; font-weight:600; color:var(--muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1;}
+.backdrop{position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:25; opacity:0; pointer-events:none; transition:opacity .2s ease;}
+.backdrop.show{opacity:1; pointer-events:auto;}
+/* ---- Mobile: sidebar becomes an off-canvas drawer ---- */
+@media (max-width:800px){
+  header{padding:.9rem .8rem .7rem}
+  h1{font-size:1.15rem}
+  .mobile-bar{display:flex; align-items:center; gap:.7rem; padding:.6rem .8rem; border-bottom:1px solid var(--line); background:var(--card); position:sticky; top:0; z-index:15;}
+  .layout{grid-template-columns:1fr; padding:.8rem; gap:.7rem;}
+  nav[role="tablist"]{
+    position:fixed; top:0; left:0; height:100%; width:84%; max-width:320px;
+    transform:translateX(-105%); transition:transform .25s ease; z-index:30;
+    border-radius:0; box-shadow:2px 0 16px rgba(0,0,0,.25); max-height:none;
+    padding-top:calc(env(safe-area-inset-top,0px) + .8rem);
+  }
+  nav[role="tablist"].open{transform:translateX(0);}
+  [role="tabpanel"]{padding:1rem .9rem}
+
+  /* No sideways scrolling: code wraps instead of overflowing */
+  pre{white-space:pre-wrap; word-break:break-word; overflow-x:hidden; font-size:.78rem; padding:.6rem .7rem;}
+  .flow{white-space:pre-wrap; word-break:break-word; overflow-x:hidden; font-size:.7rem; line-height:1.6; padding:.6rem .7rem;}
+
+  /* Tables stay multi-column, but shrink and wrap so nothing overflows sideways */
+  .table-scroll{overflow-x:hidden;}
+  table{min-width:0; width:100%; table-layout:fixed; border-collapse:collapse;}
+  th, td{word-break:break-word; overflow-wrap:anywhere; padding:.3rem .35rem; font-size:.7rem; line-height:1.35; vertical-align:top;}
+  table th:first-child, table td:first-child{width:27%; font-weight:600;}
+  table pre{font-size:.66rem; padding:.4rem .5rem; margin:.2rem 0;}
+  table code{font-size:.85em;}
+}
+@media (max-width:420px){
+  [role="tabpanel"] h2{font-size:1.05rem}
+  pre{font-size:.73rem}
+  .flow{font-size:.66rem}
+  th, td{font-size:.64rem; padding:.25rem .25rem;}
+  table th:first-child, table td:first-child{width:24%}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#panel-wrap">Skip to content</a>
+<header><div class="inner">
+  <h1>Kotlin — Interview Study Plan</h1>
+  <p>Full coverage of every topic — pick a topic to study it in depth: definition, mechanism, real-world example, and interview points.</p>
+</div></header>
+
+<div class="mobile-bar">
+  <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="tablist">
+    <span class="bars" aria-hidden="true">&#9776;</span><span>Topics</span>
+  </button>
+  <span class="current-label" id="currentLabel"></span>
+</div>
+<div class="backdrop" id="backdrop"></div>
+
+<div class="layout">
+  <nav role="tablist" aria-label="Topics" id="tablist"></nav>
+  <div id="panel-wrap"></div>
+</div>
+
+<footer>Kotlin revision notes · use &#8593; &#8595; or tap to switch topics.</footer>
+
+<script>
+const DATA = [
+{group:"Study Plan", color:"var(--t0)", tabs:[
+{id:"plan", title:"Study Plan &amp; Map", html:`
+<h2>Study Plan &amp; How Topics Connect</h2>
+<p class="tag">Read this first</p>
+<p>Work top to bottom — each tier assumes the ones above it.</p>
+<table><tr><th>Tier</th><th>Covers</th><th>Priority</th><th>Why here</th></tr>
+<tr><td>1 — Fundamentals</td><td>Variables, Operators, Control Flow, Value semantics, Null Safety, Shadowing</td><td>Critical</td><td>The syntax every later line is written in</td></tr>
+<tr><td>Functions</td><td>Single-Expression, Lambda Expressions, Higher-Order Functions</td><td>Critical</td><td>Kotlin's callback/transform idiom, used everywhere from Collections to Compose</td></tr>
+<tr><td>2 — OOP</td><td>Classes, Class Types (Open/Abstract/Data/Singleton/Enum/Sealed), Interfaces (Interface/Delegation), Boxing, Four Pillars (Encapsulation/Abstraction/Inheritance/Polymorphism)</td><td>Critical</td><td>How Kotlin organises code; interviewers probe this hardest</td></tr>
+<tr><td>3 — Collections</td><td>Overview, Collection Types (Homogeneous/Heterogeneous), Immutable, Mutable</td><td>High</td><td>The data structures OOP builds and passes around</td></tr>
+<tr><td>4 — Concurrency</td><td>Coroutines, Flow</td><td>High</td><td>Suspend functions are values returning sealed-class results, streaming collections over time</td></tr>
+<tr><td>5 — Android Essentials</td><td>Lifecycle, Intents, Views/Compose, ViewModel/Navigation/MVVM, Room/Retrofit/DataStore, DI, WorkManager, Testing, Gradle</td><td>Critical (Android roles)</td><td>The Jetpack/SDK layer built on top of everything above — not Kotlin itself, but where Kotlin is applied</td></tr></table>
+<div class="flow">Fundamentals ──▶ Functions ──▶ OOP ──▶ Collections ──▶ Coroutines/Flow ──▶ Android Essentials</div>
+<p class="app"><b>How to use this page:</b> Definition for quick recall → Mechanism when you've forgotten "how" → Example to ground it → Interview Points right before a call.</p>`},
+]},
+{group:"Tier 1 · Fundamentals", color:"var(--t1)", tabs:[
+{id:"variables", title:"Variables", html:`
+<h2>Variables</h2>
+<p class="tag">Tier 1 · Critical · No prerequisites</p>
+<div class="def"><b>Definition:</b> a variable is a named, typed reference to a value. Kotlin is statically typed — the type is fixed at compile time even when inferred.</div>
+<h3>val vs var</h3>
+<div class="table-scroll"><table><tr><th></th><th>val</th><th>var</th></tr>
+<tr><td>Reassignable?</td><td>No</td><td>Yes</td></tr>
+<tr><td>Java equivalent</td><td><code>final</code></td><td>plain variable</td></tr>
+<tr><td>Content mutable?</td><td>Yes if the object is mutable</td><td>Yes</td></tr></table></div>
+<pre><code>val list = mutableListOf(1)
+list.add(2)          // legal — reference fixed, object isn't
+// list = mutableListOf(2)   // compile error — val can't be reassigned
+
+var count = 0
+count = count + 1     // legal — var can be reassigned</code></pre>
+<div class="app"><b>Real-world example:</b> a fetched User object is held in a <code>val</code> (the reference to it never changes), while a running total or loop counter is a <code>var</code> because it's expected to change.</div>
+<p><b>Interview points:</b> default to <code>val</code> and only reach for <code>var</code> when reassignment is genuinely needed — it's both a style convention and a safety habit interviewers look for.</p>
+<div class="connect"><b>Connects to →</b> Types (the next tab) covers what a variable can hold; Immutable Collections applies this same idea one level up.</div>`},
+{id:"types", title:"Types", html:`
+<h2>Types, Type Inference &amp; Typecasting</h2>
+<p class="tag">Tier 1 · Critical · Requires Variables</p>
+<div class="def"><b>Definition:</b> every variable in Kotlin has a fixed, static type — either written explicitly or inferred by the compiler from context. Kotlin has no language-level primitives: <code>Int, Long, Short, Byte, Double, Float, Boolean, Char, String</code> are all real types with their own members.</div>
+<pre><code>val age: Int = 25          // explicit type
+val name = "Ana"           // String — inferred
+val price = 19.99          // Double — inferred (decimal literals default to Double)
+val big: Long = 10_000_000_000L
+println(5.toString())      // "5" — even Int has member functions</code></pre>
+<h3>Type Inference</h3>
+<p><code>val x = 5</code> infers <code>Int</code> from the initializer at compile time — the type is fixed, just unwritten. The compiler always knows the exact type; inference only saves you from typing it out.</p>
+<pre><code>val a = 5          // inferred: Int
+val b = 5.0        // inferred: Double
+val c = "5"        // inferred: String
+val d: Any = 5     // explicit wider type — useful when you need a supertype</code></pre>
+<h3>Typecasting</h3>
+<div class="table-scroll"><table><tr><th>Kind</th><th>Syntax</th><th>Behaviour</th></tr>
+<tr><td>Smart cast</td><td><code>if (x is String) x.length</code></td><td>Compiler auto-casts after a type check</td></tr>
+<tr><td>Unsafe cast</td><td><code>x as String</code></td><td>Throws ClassCastException on failure</td></tr>
+<tr><td>Safe cast</td><td><code>x as? String</code></td><td>Returns null instead of throwing</td></tr></table></div>
+<pre><code>fun describe(x: Any) {
+    if (x is String) {
+        println(x.length)          // smart cast — no manual (String) x needed
+    }
+    val n: Int? = x as? Int         // safe cast — n is null if x isn't an Int
+    val s: String = x as String     // unsafe cast — crashes here if x isn't a String
+}</code></pre>
+<div class="app"><b>Real-world example:</b> parsing a loosely-typed API field with <code>x as? Int ?: 0</code> falls back to a default instead of crashing the app on malformed data; smart-casting a sealed class inside a <code>when</code> lets you access subtype-specific fields directly.</div>
+<p><b>Interview points:</b> smart cast fails on a <code>var</code> captured in a closure or a custom-getter property, since the compiler can't guarantee the value doesn't change between the check and the use — know this exception cold.</p>
+<div class="connect"><b>Connects to →</b> Null Safety (<code>as?</code> is nullable-returning by design); Sealed Classes (smart-casting inside <code>when</code> is the classic pairing).</div>`},
+{id:"operators", title:"Operators", html:`
+<h2>Operators</h2>
+<p class="tag">Tier 1 · Critical</p>
+<div class="def"><b>Definition:</b> symbols that map to specially-named functions you can implement yourself.</div>
+<div class="table-scroll"><table><tr><th>Category</th><th>Operators</th><th>Note</th></tr>
+<tr><td>Arithmetic</td><td><code>+ - * / %</code></td><td>plus/minus/times/div/rem</td></tr>
+<tr><td>Comparison</td><td><code>== != &lt; &gt;</code></td><td><code>==</code> calls equals()</td></tr>
+<tr><td>Identity</td><td><code>=== !==</code></td><td>Same object in memory</td></tr>
+<tr><td>Range</td><td><code>.. until downTo step</code></td><td>Builds a Progression</td></tr></table></div>
+<pre><code>data class Point(val x: Int, val y: Int) {
+    operator fun plus(o: Point) = Point(x + o.x, y + o.y)
+}
+val p = Point(1,2) + Point(3,4)   // Point(4,6)</code></pre>
+<div class="app"><b>Real-world example:</b> a Money class overloading + so wallet.balance + payment reads naturally.</div>
+<p><b>Interview points:</b> == vs === is a near-guaranteed question, especially vs Java where == is identity.</p>
+<div class="connect"><b>Connects to →</b> Loops (ranges); data classes auto-generate equals().</div>`},
+{id:"control", title:"Conditionals &amp; Loops", html:`
+<h2>Conditionals &amp; Loops</h2>
+<p class="tag">Tier 1 · Critical</p>
+<div class="def"><b>Definition:</b> if and when are expressions — they can produce and return a value.</div>
+<pre><code>val label = when (code) {
+    200, 201    -> "OK"
+    in 400..499 -> "Client error"
+    else        -> "Unknown"
+}</code></pre>
+<p><b>Loops:</b> <code>for (i in 1..5)</code>, <code>while</code>, <code>do-while</code>. Labels handle nested loops: <code>outer@ for(...) { break@outer }</code>.</p>
+<div class="app"><b>Real-world example:</b> a when over an HTTP status code assigned directly to a variable — no if/else chain.</div>
+<p><b>Interview points:</b> prefer collection functions over manual loops for transforms; know when a plain loop is still clearer.</p>
+<div class="connect"><b>Connects to →</b> Everything is a Value.</div>`},
+{id:"value", title:"Everything is a Value", html:`
+<h2>"Everything in Kotlin is a Value"</h2>
+<p class="tag">Tier 1 · Critical</p>
+<div class="def"><b>Definition:</b> no primitive/object split, and control-flow constructs are expressions — numbers, functions, even if/when branches are values.</div>
+<p><b>Why:</b> unifies the type system and makes functions first-class (storable, passable) — the basis for lambdas everywhere.</p>
+<p><b>How:</b> the compiler still compiles simple non-nullable numerics to raw JVM primitives when it can prove boxing isn't needed.</p>
+<pre><code>val double: (Int) -> Int = { it * 2 }
+fun apply(x: Int, f: (Int) -> Int) = f(x)
+apply(5, double)   // 10</code></pre>
+<div class="app"><b>Real-world example:</b> passing a validator lambda into a form field class — the function is just a value being passed, no special interface ceremony.</div>
+<p><b>Interview points:</b> explain the gap between the abstraction and runtime reality — exactly what Boxing/Unboxing tests.</p>
+<div class="connect"><b>Connects to →</b> Boxing/Unboxing, if/when as expressions.</div>`},
+{id:"null", title:"Null Safety", html:`
+<h2>Null Safety</h2>
+<p class="tag">Tier 1 · Critical</p>
+<div class="def"><b>Definition:</b> nullability is part of the type. String never holds null; String? can. Compiler forces handling before use.</div>
+<div class="flow">nullable value, need it safely:
+  OK to skip when null?   ──yes──▶ ?.  (safe call)
+  have a fallback?        ──yes──▶ ?:  (elvis)
+  certain it's non-null?  ──yes──▶ !!  (crashes if wrong)
+  else restructure the code</div>
+<div class="table-scroll"><table><tr><th>Operator</th><th>Syntax</th><th>Behaviour</th></tr>
+<tr><td>Safe call</td><td><code>user?.name</code></td><td>null instead of throw; chainable</td></tr>
+<tr><td>Elvis</td><td><code>?: "Unknown"</code></td><td>Default when null</td></tr>
+<tr><td>Not-null assert</td><td><code>!!</code></td><td>Throws NPE if null</td></tr></table></div>
+<pre><code>data class Profile(val middleName: String?)
+val profile: Profile? = fetchProfile()
+
+val name1 = profile?.middleName                 // safe call chain — null if either side is null
+val name2 = profile?.middleName ?: "Unknown"    // elvis — fallback default
+val name3 = profile!!.middleName!!              // asserts BOTH are non-null — crashes if wrong</code></pre>
+<div class="app"><b>Real-world example:</b> <code>user.middleName?.let { show(it) }</code> only runs when a value exists.</div>
+<p><b>Interview points:</b> !! is a code-review smell — always have a better alternative ready.</p>
+<div class="connect"><b>Connects to →</b> Casting (as?); lateinit as an alternative.</div>`},
+{id:"shadow", title:"Shadowing", html:`
+<h2>Shadowing</h2>
+<p class="tag">Tier 1 · Good to know</p>
+<div class="def"><b>Definition:</b> a name declared in an inner scope hides the same name from an outer scope, for that inner scope only.</div>
+<pre><code>class Outer {
+    val name = "outer"
+    inner class Inner {
+        val name = "inner"
+        fun show() = println(name + " / " + this@Outer.name)
+    }
+}</code></pre>
+<div class="app"><b>Real-world example:</b> a lambda parameter named 'it' inside another lambda also using 'it' — the inner one silently shadows the outer.</div>
+<p><b>Interview points:</b> name nested lambda params explicitly; know this@ClassName as the fix for a shadowed outer receiver.</p>`},
+]},
+{group:"Functions", color:"var(--tf)", tabs:[
+{id:"fn-single", title:"Single-Expression Functions", html:`
+<h2>Functions → Single-Expression Functions</h2>
+<p class="tag">Functions · Critical</p>
+<div class="def"><b>Definition:</b> when a function body is a single expression, the curly braces and <code>return</code> can be dropped in favour of <code>= expression</code>. The return type is usually inferred from the expression.</div>
+<pre><code>fun square(x: Int) = x * x                       // return type Int inferred
+fun greet(name: String): String = "Hello, $name"  // explicit type still allowed
+fun isEven(n: Int) = n % 2 == 0                    // Boolean inferred
+
+// equivalent block form:
+fun squareBlock(x: Int): Int {
+    return x * x
+}</code></pre>
+<div class="app"><b>Real-world example:</b> small utility/extension functions in Android code (<code>fun View.visible() = apply { visibility = View.VISIBLE }</code>) are almost always written in single-expression style for brevity.</div>
+<p><b>Interview points:</b> know that the return type can be omitted only for expression-body functions where it's inferable; a block-body function (with <code>{ }</code>) always needs an explicit return type if it returns something other than Unit and is part of a public API.</p>
+<div class="connect"><b>Connects to →</b> Everything is a Value (an expression body is just returning a value); Lambda Expressions below are the anonymous counterpart.</div>`},
+{id:"fn-lambda", title:"Lambda Expressions", html:`
+<h2>Functions → Lambda Expressions</h2>
+<p class="tag">Functions · Critical</p>
+<div class="def"><b>Definition:</b> a lambda is an anonymous function literal — a block of code that can be stored in a variable, passed as an argument, or returned, without needing a named <code>fun</code> declaration.</div>
+<pre><code>val square: (Int) -> Int = { x -> x * x }     // explicit parameter name
+val double = { x: Int -> x * 2 }               // type inferred from usage
+val greet = { "Hello!" }                        // no parameters, just a body
+
+val nums = listOf(1, 2, 3)
+nums.map { it * 2 }                             // single param auto-named 'it'
+nums.map { x -> x * 2 }                         // same thing, named explicitly</code></pre>
+<h3>Trailing lambda syntax</h3>
+<pre><code>// if the LAST parameter of a function is a lambda, it can go outside the parens:
+fun runTwice(action: () -> Unit) { action(); action() }
+runTwice { println("hi") }        // trailing lambda — no parentheses needed at all here</code></pre>
+<div class="app"><b>Real-world example:</b> every click listener in Android — <code>button.setOnClickListener { doSomething() }</code> — is a lambda passed as a trailing argument, replacing Java's verbose anonymous inner class.</div>
+<p><b>Interview points:</b> know the implicit <code>it</code> naming for single-parameter lambdas, and when to switch to an explicit name (nested lambdas — see Shadowing) to avoid ambiguity.</p>
+<div class="connect"><b>Connects to →</b> Shadowing (implicit 'it' collisions in nested lambdas); Higher-Order Functions below (lambdas are the values passed into them).</div>`},
+{id:"fn-higher", title:"Higher-Order Functions", html:`
+<h2>Functions → Higher-Order Functions</h2>
+<p class="tag">Functions · Critical</p>
+<div class="def"><b>Definition:</b> a function that takes another function as a parameter, returns a function, or both. This is possible because functions are values in Kotlin (see Everything is a Value) — their type is written as <code>(ParamTypes) -> ReturnType</code>.</div>
+<pre><code>fun operate(a: Int, b: Int, op: (Int, Int) -> Int): Int = op(a, b)
+
+val sum = operate(3, 4) { x, y -> x + y }        // 7 — lambda passed as trailing arg
+val max = operate(3, 4) { x, y -> if (x > y) x else y }
+
+fun multiplier(factor: Int): (Int) -> Int {      // RETURNS a function
+    return { number -> number * factor }
+}
+val triple = multiplier(3)
+println(triple(5))   // 15</code></pre>
+<h3>inline, noinline, crossinline</h3>
+<pre><code>inline fun <T> measure(block: () -> T): T {   // inline copies the lambda's code at the call site —
+    val start = System.currentTimeMillis()     // avoids the runtime overhead of a function object
+    val result = block()
+    println("Took \${System.currentTimeMillis() - start}ms")
+    return result
+}</code></pre>
+<div class="app"><b>Real-world example:</b> <code>list.map { }</code>, <code>list.filter { }</code>, and Retrofit/Room callback-style APIs are all higher-order functions; <code>viewModelScope.launch { }</code> itself takes a suspend lambda as its parameter.</div>
+<p><b>Interview points:</b> explain why standard library functions like <code>map</code>/<code>let</code>/<code>run</code> are marked <code>inline</code> — it avoids allocating a function object and a virtual call per invocation, which matters when they're called inside loops.</p>
+<div class="connect"><b>Connects to →</b> Lambda Expressions (the values passed in); Coroutines' launch/async are higher-order functions taking suspend lambdas.</div>`},
+]},
+{group:"Tier 2 · OOP", color:"var(--t2)", tabs:[
+{subgroup:"Classes &amp; Members", tabs:[
+{id:"cm-constructors", title:"Constructors &amp; Types", html:`
+<h2>Classes &amp; Members → Constructors &amp; Types</h2>
+<p class="tag">Tier 2 · Critical · Requires Tier 1</p>
+<div class="def"><b>Definition:</b> a constructor sets up a new instance's initial state. Kotlin has exactly one <em>primary</em> constructor per class (declared in the header) and any number of <em>secondary</em> constructors (declared in the body with the <code>constructor</code> keyword).</div>
+<h3>Primary constructor</h3>
+<pre><code>class User(val name: String, var age: Int = 0)   // declared right in the class header
+val u = User("Ana")        // age uses its default value, 0
+val u2 = User("Ravi", 30)</code></pre>
+<p>The primary constructor holds no executable code directly — any logic that needs to run during construction goes in an <code>init</code> block (see the next tab).</p>
+<h3>Secondary constructors</h3>
+<pre><code>class Point {
+    val x: Int
+    val y: Int
+    constructor(x: Int, y: Int) { this.x = x; this.y = y }
+    constructor(both: Int) : this(both, both)   // MUST delegate to another constructor
+}
+val p = Point(5)   // Point(5, 5) via the delegating secondary constructor</code></pre>
+<div class="app"><b>Real-world example:</b> a data model with a primary constructor for the common case, plus a secondary constructor for legacy code that only has a single combined ID string to parse before delegating to the primary.</div>
+<p><b>Interview points:</b> every secondary constructor must ultimately delegate to the primary constructor (directly or through another secondary one) via <code>: this(...)</code> — a class can't have a secondary constructor with no path back to the primary.</p>
+<div class="connect"><b>Connects to →</b> Initializer Blocks (run before secondary constructor bodies); Execution Order (the full picture).</div>`},
+{id:"cm-init", title:"Initializer Blocks", html:`
+<h2>Classes &amp; Members → Initializer Blocks</h2>
+<p class="tag">Tier 2 · Critical</p>
+<div class="def"><b>Definition:</b> an <code>init { }</code> block contains code that runs as part of constructing the object — since the primary constructor itself can't hold a body, <code>init</code> blocks are where that setup logic lives.</div>
+<pre><code>class User(name: String) {
+    val greeting: String
+    init {
+        println("init block running")
+        greeting = "Hi, $name"       // can use primary-constructor parameters directly
+    }
+}</code></pre>
+<p>A class can have <em>multiple</em> init blocks; they run in the order they're written, interleaved with property initializers in the same top-to-bottom source order.</p>
+<pre><code>class Demo(x: Int) {
+    val a = x.also { println("a init") }
+    init { println("first init block") }
+    val b = (x * 2).also { println("b init") }
+    init { println("second init block") }
+}
+// Demo(1) prints: a init, first init block, b init, second init block</code></pre>
+<div class="app"><b>Real-world example:</b> validating constructor arguments (<code>require(age >= 0) { "Age can't be negative" }</code>) inside an init block so an invalid object can never exist.</div>
+<p><b>Interview points:</b> multiple init blocks + property initializers run in strict source order — a classic "predict the output" question.</p>
+<div class="connect"><b>Connects to →</b> Constructors (what triggers this); Execution Order (the full sequence).</div>`},
+{id:"cm-member-vars", title:"Member Variables", html:`
+<h2>Classes &amp; Members → Member Variables</h2>
+<p class="tag">Tier 2 · Critical</p>
+<div class="def"><b>Definition:</b> variables declared directly inside a class — either as primary-constructor parameters marked <code>val</code>/<code>var</code>, or declared in the class body — that belong to each instance of the class.</div>
+<pre><code>class Car(val brand: String) {     // member variable via constructor
+    var mileage: Int = 0            // member variable declared in the body
+    val wheels = 4                  // fixed per instance, still a member variable
+}
+val c = Car("Toyota")
+c.mileage = 15000                   // accessible because it's var and public by default</code></pre>
+<div class="app"><b>Real-world example:</b> a <code>User</code> class's <code>id</code> (set once via the constructor, a val) versus its <code>isOnline</code> status (a var, updated as the app receives presence updates).</div>
+<p><b>Interview points:</b> know that constructor parameters WITHOUT <code>val</code>/<code>var</code> are NOT member variables — they're just local to the constructor/init blocks and inaccessible from outside or from member functions declared later, unless captured by an init block.</p>
+<div class="connect"><b>Connects to →</b> Properties (the next tab formalizes member variables with backing fields/accessors).</div>`},
+{id:"cm-properties", title:"Properties", html:`
+<h2>Classes &amp; Members → Properties</h2>
+<p class="tag">Tier 2 · Critical</p>
+<div class="def"><b>Definition:</b> in Kotlin, a "property" is the full package around a member variable — its backing field (the actual stored value) plus its getter and, for <code>var</code>, its setter. Every <code>val</code>/<code>var</code> in a class is a property, even without custom accessors.</div>
+<pre><code>class Circle(val radius: Double) {
+    val area: Double              // a property with NO backing field —
+        get() = Math.PI * radius * radius   // computed fresh every access
+}
+val c = Circle(2.0)
+println(c.area)   // 12.566... — recomputed each time, not stored</code></pre>
+<div class="app"><b>Real-world example:</b> a <code>Rectangle</code> class exposing a computed <code>isSquare: Boolean</code> property derived from width/height, so callers read it like a field (<code>rect.isSquare</code>) without knowing it's actually a computation.</div>
+<p><b>Interview points:</b> know the difference between a property with a backing field (stores a value, accessed via the implicit <code>field</code> identifier) and one without (purely computed — like <code>area</code> above); this is a common "does this store memory or not" question.</p>
+<div class="connect"><b>Connects to →</b> Getters and Setters (the next two tabs detail the accessor syntax); Encapsulation pillar.</div>`},
+{id:"cm-getters", title:"Getters", html:`
+<h2>Classes &amp; Members → Getters</h2>
+<p class="tag">Tier 2 · Critical</p>
+<div class="def"><b>Definition:</b> every property has an implicit getter generated by the compiler; you can override it with a custom <code>get()</code> to control or compute what's returned when the property is read.</div>
+<pre><code>class User(private val firstName: String, private val lastName: String) {
+    val fullName: String
+        get() = "$firstName $lastName"       // recomputed on every read
+}
+val u = User("Ana", "Silva")
+println(u.fullName)   // "Ana Silva" — reads like a field, runs like a function</code></pre>
+<div class="app"><b>Real-world example:</b> a <code>Temperature</code> class storing Celsius internally but exposing a computed <code>fahrenheit</code> getter — callers never need to know which unit is actually stored.</div>
+<p><b>Interview points:</b> a custom getter with no backing field means the property is recomputed every single time it's accessed — worth flagging if the computation is expensive (cache it in a backing field instead if so).</p>
+<div class="connect"><b>Connects to →</b> Properties (the concept this implements); Setters (the write-side counterpart).</div>`},
+{id:"cm-setters", title:"Setters", html:`
+<h2>Classes &amp; Members → Setters</h2>
+<p class="tag">Tier 2 · Critical</p>
+<div class="def"><b>Definition:</b> a <code>var</code> property has an implicit setter generated by the compiler; overriding it with a custom <code>set(value)</code> lets you validate or transform incoming values before they're stored in the backing field.</div>
+<pre><code>class BankAccount {
+    var balance: Double = 0.0
+        set(value) {
+            require(value >= 0) { "Balance can't go negative" }
+            field = value           // 'field' refers to the actual backing storage
+        }
+}
+val acc = BankAccount()
+acc.balance = 100.0     // OK
+// acc.balance = -50.0  // throws IllegalArgumentException at runtime</code></pre>
+<div class="app"><b>Real-world example:</b> a UI form field's property that automatically trims whitespace or enforces a max length every time it's set, so validation logic lives in one place instead of being repeated at every call site.</div>
+<p><b>Interview points:</b> know the <code>field</code> identifier — it's a compiler-provided reference to the actual backing storage, only usable inside a property's own accessors; referencing the property name itself inside its own setter (<code>balance = value</code>) would cause infinite recursion.</p>
+<div class="connect"><b>Connects to →</b> Getters (the read-side counterpart); Encapsulation pillar (this is exactly how it's implemented).</div>`},
+{id:"cm-member-funcs", title:"Member Functions", html:`
+<h2>Classes &amp; Members → Member Functions</h2>
+<p class="tag">Tier 2 · Critical</p>
+<div class="def"><b>Definition:</b> functions declared inside a class body, defining the behaviour available on every instance. They implicitly have access to the instance's own properties and other member functions via <code>this</code>.</div>
+<pre><code>class Rectangle(val width: Double, val height: Double) {
+    fun area() = width * height                 // single-expression member function
+    fun scale(factor: Double): Rectangle {
+        return Rectangle(width * factor, height * factor)
+    }
+    fun describe() = "Rectangle \${width}x\$height, area=\${area()}"   // calls another member fn
+}
+val r = Rectangle(3.0, 4.0)
+println(r.area())        // 12.0
+println(r.scale(2.0).describe())</code></pre>
+<div class="app"><b>Real-world example:</b> a <code>ShoppingCart</code> class's <code>addItem()</code>, <code>removeItem()</code>, and <code>total()</code> member functions bundle the cart's data and the operations on it together, rather than scattering standalone functions that each take a cart parameter.</div>
+<p><b>Interview points:</b> distinguish member functions (belong to a class, called via <code>instance.method()</code>) from extension functions (defined outside a class but callable as if they were members) — a common follow-up question.</p>
+<div class="connect"><b>Connects to →</b> Higher-Order Functions (member functions can take/return lambdas too); The Four Pillars (member functions are where behaviour lives).</div>`},
+{id:"cm-object-decl", title:"Object Declaration", html:`
+<h2>Classes &amp; Members → Object Declaration</h2>
+<p class="tag">Tier 2 · Critical</p>
+<div class="def"><b>Definition:</b> creating (instantiating) an object means calling a class's constructor to produce a concrete instance in memory, then storing a reference to it in a variable. Unlike Java, Kotlin doesn't use the <code>new</code> keyword.</div>
+<pre><code>class User(val name: String)
+
+val u1 = User("Ana")          // object declared/instantiated, reference held in u1
+val u2 = User("Ana")          // a SEPARATE object — same data, different identity
+println(u1 == u2)             // false (no equals() override — default is referential)
+println(u1 === u2)            // false — definitely different objects in memory
+
+data class Point(val x: Int, val y: Int)
+val p1 = Point(1, 2)
+val p2 = Point(1, 2)
+println(p1 == p2)             // true — data class gives structural equality</code></pre>
+<div class="app"><b>Real-world example:</b> two separately-fetched User objects representing the same underlying account can be structurally equal (same id/name) yet be different object instances in memory — a source of subtle bugs if you rely on <code>===</code> instead of <code>==</code>.</div>
+<p><b>Interview points:</b> know the distinction between declaring/instantiating an object (creating a new instance with a constructor call) and the <code>object</code> keyword for singletons — same English word, two very different Kotlin concepts. Also revisit <code>==</code> vs <code>===</code> here.</p>
+<div class="connect"><b>Connects to →</b> Operators (== vs ===); Singleton (object) in Class Types is the unrelated keyword meaning; Data Classes (structural equality).</div>`},
+{id:"cm-lateinit", title:"lateinit", html:`
+<h2>Classes &amp; Members → lateinit</h2>
+<p class="tag">Tier 2 · Critical</p>
+<div class="def"><b>Definition:</b> <code>lateinit</code> defers the initialization of a non-null <code>var</code> property until after construction — for cases where a value is guaranteed to exist before first use, but isn't available in the constructor itself.</div>
+<pre><code>class ProfileFragment : Fragment() {
+    lateinit var binding: FragmentProfileBinding    // can't exist until onCreateView runs
+
+    override fun onCreateView(...): View {
+        binding = FragmentProfileBinding.inflate(inflater)   // initialized here
+        return binding.root
+    }
+    override fun onDestroyView() {
+        if (::binding.isInitialized) { /* safe to check before use */ }
+    }
+}</code></pre>
+<div class="table-scroll"><table><tr><th>Restriction</th><th>Why</th></tr>
+<tr><td>Only on <code>var</code></td><td>A val must be set once, immediately — lateinit defers that</td></tr>
+<tr><td>Not on primitives (Int, Boolean...)</td><td>No safe "uninitialized" sentinel value exists for them</td></tr>
+<tr><td>Not nullable types</td><td>A nullable type already has null as its "not set yet" state</td></tr></table></div>
+<div class="app"><b>Real-world example:</b> Android view bindings, Dependency-Injected fields, and test fixtures set up in a <code>@Before</code> method are the three most common lateinit use cases.</div>
+<p><b>Interview points:</b> accessing a lateinit property before it's set throws <code>UninitializedPropertyAccessException</code> — know <code>::propertyName.isInitialized</code> as the safe check, and be ready to justify lateinit vs a nullable type (avoids null-checking a value you know will always be present once the lifecycle reaches a certain point).</p>
+<div class="connect"><b>Connects to →</b> Null Safety (the alternative); Activity/Fragment Lifecycle (the classic real-world trigger).</div>`},
+{id:"cm-nested-inner", title:"Nested &amp; Inner Classes", html:`
+<h2>Classes &amp; Members → Nested &amp; Inner Classes</h2>
+<p class="tag">Tier 2 · High</p>
+<div class="def"><b>Definition:</b> a class declared inside another class. By default it's a <em>nested</em> class — it does NOT hold a reference to an instance of the outer class (like a Java static nested class). Marking it <code>inner</code> makes it an <em>inner</em> class, which DOES hold an implicit reference to its enclosing instance.</div>
+<pre><code>class Outer(val name: String) {
+    class Nested {                       // no access to Outer's members
+        fun greet() = "Hi from Nested"
+    }
+    inner class Inner {                  // holds a reference to the Outer instance
+        fun greet() = "Hi from Inner, outer name is $name"   // CAN access Outer's members
+    }
+}
+val nested = Outer.Nested()              // no Outer instance needed
+val outer = Outer("Ana")
+val inner = outer.Inner()                // needs an Outer instance to create</code></pre>
+<div class="app"><b>Real-world example:</b> a RecyclerView.Adapter's ViewHolder is typically a nested (or inner, if it needs adapter state) class — grouping related types together and controlling their visibility to just the outer class's context.</div>
+<p><b>Interview points:</b> know that plain nested classes are the Kotlin default (opposite of Java, where non-static inner classes are the default) — you must opt in with <code>inner</code> to get an outer-instance reference, which is also a common memory-leak source if the inner instance outlives its intended scope.</p>
+<div class="connect"><b>Connects to →</b> Shadowing (this@Outer syntax to reach the enclosing instance from an inner class).</div>`},
+{id:"cm-order", title:"Execution Order", html:`
+<h2>Classes &amp; Members → Execution Order</h2>
+<p class="tag">Tier 2 · Critical · Ties the whole group together</p>
+<div class="def"><b>Definition:</b> the precise, deterministic sequence Kotlin follows when an object is constructed — combining everything from the tabs above into one flow.</div>
+<div class="flow">1. Primary-constructor parameters are evaluated
+        │
+        ▼
+2. Property initializers &amp; init{} blocks run,
+   IN THE EXACT ORDER THEY APPEAR IN SOURCE (top to bottom, interleaved)
+        │
+        ▼
+3. Secondary constructor body runs
+   (only if a secondary constructor was the one called)</div>
+<pre><code>class Demo(name: String) {
+    val greeting = "Hi $name".also { println("1: property initializer -> $it") }
+    init { println("2: first init block") }
+    val length = greeting.length.also { println("3: property initializer -> $it") }
+    init { println("4: second init block") }
+    constructor() : this("World") { println("5: secondary constructor body") }
+}
+Demo()
+// prints, in order:
+// 1: property initializer -> Hi World
+// 2: first init block
+// 3: property initializer -> 4
+// 4: second init block
+// 5: secondary constructor body</code></pre>
+<div class="app"><b>Real-world example:</b> a bug where a property initializer reads another property declared LOWER in the file and gets an unexpected default/zero value — caused by not respecting this strict top-to-bottom order.</div>
+<p><b>Interview points:</b> this exact sequence is one of the most common "predict the output" Kotlin interview questions — be able to trace it line by line like the example above, including which parts only run when a secondary constructor is invoked.</p>
+<div class="connect"><b>Connects to →</b> ties together Constructors, Initializer Blocks, Properties, and lateinit from this entire group.</div>`},
+]},
+{subgroup:"Class Types", tabs:[
+{id:"ct-open", title:"Open Classes", html:`
+<h2>Class Types → Open Classes</h2>
+<p class="tag">Tier 2 · Critical</p>
+<div class="def"><b>Definition:</b> every class and member is <code>final</code> (non-inheritable) by default. Marking a class <code>open</code> allows subclassing; marking a member <code>open</code> allows it to be overridden. This is the base switch that makes inheritance possible at all.</div>
+<pre><code>open class Animal(val name: String) {
+    open fun sound() = "..."
+}
+class Dog(name: String) : Animal(name) {
+    override fun sound() = "Woof"   // override mandatory, not optional
+}</code></pre>
+<div class="app"><b>Real-world example:</b> a BaseActivity/BaseViewHolder marked open in an Android codebase, so feature modules can extend it and override lifecycle hooks.</div>
+<p><b>Interview points:</b> explain why Kotlin defaults to final — it forces you to deliberately design a class for inheritance rather than allowing it by accident (unlike Java).</p>
+<div class="connect"><b>Connects to →</b> The Four Pillars (Inheritance); Abstract Classes below take this further by forbidding direct instantiation.</div>`},
+{id:"ct-abstract", title:"Abstract Classes", html:`
+<h2>Class Types → Abstract Classes</h2>
+<p class="tag">Tier 2 · Critical</p>
+<div class="def"><b>Definition:</b> a class marked <code>abstract</code> can't be instantiated directly, and can hold a mix of concrete members and <code>abstract</code> members that every subclass must implement.</div>
+<pre><code>abstract class Shape {
+    abstract fun area(): Double            // no body — must be implemented
+    fun describe() = "Area: " + area()     // concrete, shared by all subclasses
+}
+class Circle(val r: Double) : Shape() {
+    override fun area() = Math.PI * r * r
+}</code></pre>
+<div class="app"><b>Real-world example:</b> <code>abstract class PaymentMethod { abstract fun charge(amount: Double) }</code> with CreditCard/Paypal subclasses — shared validation logic lives in the abstract class, the charging mechanism differs per subclass.</div>
+<p><b>Interview points:</b> abstract class vs interface — an abstract class can hold constructor-backed state and is single-inheritance only; an interface supports multiple inheritance of behaviour but is more limited in holding state.</p>
+<div class="connect"><b>Connects to →</b> Interfaces &amp; Delegation (the alternative); The Four Pillars (Abstraction).</div>`},
+{id:"ct-data", title:"Data Classes", html:`
+<h2>Class Types → Data Classes</h2>
+<p class="tag">Tier 2 · Critical</p>
+<div class="def"><b>Definition:</b> a class whose primary purpose is to hold values. Marking it <code>data class</code> auto-generates <code>equals()</code>, <code>hashCode()</code>, <code>toString()</code>, <code>copy()</code>, and <code>componentN()</code> functions based on the primary-constructor properties.</div>
+<pre><code>data class Pt(val x: Int, val y: Int)
+val a = Pt(1, 2)
+val b = a.copy(y = 5)     // Pt(x=1, y=5) — new object, a unchanged
+val (px, py) = a          // destructuring via componentN()
+println(a == Pt(1,2))     // true — structural equality</code></pre>
+<div class="app"><b>Real-world example:</b> an API response model like <code>data class User(val id: Int, val name: String)</code> — free equals/toString for logging and testing, and copy() for creating a modified version immutably.</div>
+<p><b>Interview points:</b> equals/hashCode only consider <em>primary-constructor</em> properties — a property declared in the class body is ignored by generated equals(), a common gotcha.</p>
+<div class="connect"><b>Connects to →</b> Operators (== calls the generated equals()); Immutable Collections often store data classes.</div>`},
+{id:"ct-singleton", title:"Singleton (object)", html:`
+<h2>Class Types → Singleton (object)</h2>
+<p class="tag">Tier 2 · Critical</p>
+<div class="def"><b>Definition:</b> the <code>object</code> keyword declares a class and its single instance at the same time — created lazily and thread-safely on first access (JVM class-loading guarantees this). <code>companion object</code> attaches Java-static-like members inside a class.</div>
+<pre><code>object DatabaseManager {
+    fun connect() = println("connected")
+}
+DatabaseManager.connect()   // no "new", exactly one instance ever
+
+class User private constructor(val id: Int) {
+    companion object {
+        fun create(id: Int) = User(id)   // factory function, static-like
+    }
+}</code></pre>
+<div class="app"><b>Real-world example:</b> a single shared network client or analytics logger (<code>object ApiClient { ... }</code>) used across an app without manual dependency wiring.</div>
+<p><b>Interview points:</b> know the difference — <code>object</code> is a standalone singleton type; <code>companion object</code> is scoped to and shares the enclosing class's name, mainly used for factory methods and constants.</p>
+<div class="connect"><b>Connects to →</b> Interfaces (a singleton can implement one); contrast with Data Classes (identity vs value semantics).</div>`},
+{id:"ct-enum", title:"Enum Classes", html:`
+<h2>Class Types → Enum Classes</h2>
+<p class="tag">Tier 2 · Critical</p>
+<div class="def"><b>Definition:</b> a fixed, known set of named <em>instances</em> of one type. Every constant shares the same shape, but each can carry its own property values and override methods.</div>
+<pre><code>enum class Direction(val degrees: Int) {
+    NORTH(0), EAST(90), SOUTH(180), WEST(270);
+    fun isVertical() = this == NORTH || this == SOUTH
+}
+val d = Direction.EAST
+println(d.degrees)   // 90</code></pre>
+<div class="app"><b>Real-world example:</b> representing an app's theme mode (<code>enum class Theme { LIGHT, DARK, SYSTEM }</code>) or days of the week — a genuinely closed, small set of options.</div>
+<p><b>Interview points (Enum vs Sealed):</b> enum = closed set of instances of the <em>same</em> shape; sealed = closed set of <em>subtypes</em>, each free to hold different data. Use enum for simple constants; sealed when each case needs different fields.</p>
+<div class="connect"><b>Connects to →</b> Sealed Classes (the direct contrast); Control Flow (when over an enum is exhaustive too).</div>`},
+{id:"ct-sealed", title:"Sealed Classes", html:`
+<h2>Class Types → Sealed Classes</h2>
+<p class="tag">Tier 2 · Critical</p>
+<div class="def"><b>Definition:</b> a restricted class/interface hierarchy where every subtype is known to the compiler at compile time (defined in the same file/module). Each subtype can carry completely different data. Pairs with <code>when</code>, which the compiler forces to be exhaustive — no <code>else</code> needed.</div>
+<pre><code>sealed class Result
+data class Success(val data: String) : Result()
+data class Error(val cause: Throwable) : Result()
+
+fun handle(r: Result) = when (r) {   // compiler enforces every branch is covered
+    is Success -> println(r.data)
+    is Error   -> println(r.cause)
+}</code></pre>
+<div class="app"><b>Real-world example:</b> modeling a network call's outcome as <code>sealed class ApiResult { Loading, Success(data), Error(message) }</code> — the UI's when is forced to handle every state, so a new state can never be silently ignored.</div>
+<p><b>Interview points:</b> be ready to state the Enum vs Sealed contrast from memory (see Enum Classes) — this pairing is one of the most common Kotlin interview questions.</p>
+<div class="connect"><b>Connects to →</b> Variables &amp; Typing (smart-casting in the when above); Coroutines/Flow commonly model results this way.</div>`},
+]},
+{subgroup:"Interfaces", tabs:[
+{id:"if-interface", title:"Interface", html:`
+<h2>Interfaces → Interface</h2>
+<p class="tag">Tier 2 · Critical</p>
+<div class="def"><b>Definition:</b> a contract of members (functions/properties) a class agrees to provide. Unlike Java's pre-8 interfaces, Kotlin interfaces can include default (concrete) implementations, not just abstract signatures. A class can implement many interfaces but extend only one class — Kotlin's answer to multiple inheritance of behaviour.</div>
+<pre><code>interface Logger {
+    val tag: String                          // abstract property — no backing field
+    fun log(msg: String) = println("[$tag] $msg")   // default implementation
+}
+class ConsoleLogger : Logger {
+    override val tag = "APP"                 // must implement the abstract property
+}
+val l: Logger = ConsoleLogger()
+l.log("started")   // [APP] started</code></pre>
+<h3>Multiple interfaces &amp; conflict resolution</h3>
+<pre><code>interface A { fun greet() = "A" }
+interface B { fun greet() = "B" }
+class C : A, B {
+    override fun greet() = super<A>.greet() + super<B>.greet()   // must resolve manually
+}</code></pre>
+<div class="app"><b>Real-world example:</b> a Repository interface with methods like fetchUser()/saveUser() — the ViewModel depends only on the interface, so the concrete implementation (network-backed, database-backed, or a fake for tests) can be swapped freely.</div>
+<p><b>Interview points:</b> when a class implements two interfaces with the same default method signature, the compiler forces you to override it explicitly and pick which parent's version to call via <code>super&lt;InterfaceName&gt;.method()</code> — a common "what compiles" question.</p>
+<div class="connect"><b>Connects to →</b> Abstraction pillar; Interface Delegation (the next tab) is a way to satisfy an interface without writing the methods yourself.</div>`},
+{id:"if-delegation", title:"Interface Delegation", html:`
+<h2>Interfaces → Interface Delegation</h2>
+<p class="tag">Tier 2 · Critical</p>
+<div class="def"><b>Definition:</b> the <code>by</code> keyword lets a class satisfy an interface by forwarding every call to an injected object that already implements it, instead of writing wrapper methods by hand. This is composition, exposed through inheritance-like syntax.</div>
+<pre><code>interface Logger { fun log(msg: String) }
+class ConsoleLogger : Logger {
+    override fun log(msg: String) = println("LOG: $msg")
+}
+
+class App(logger: Logger) : Logger by logger {
+    // App now "is-a" Logger — App().log("hi") works —
+    // with ZERO manual override fun log(msg) { logger.log(msg) } boilerplate
+}
+
+fun main() {
+    val app = App(ConsoleLogger())
+    app.log("started")   // forwarded straight to ConsoleLogger.log()
+}</code></pre>
+<div class="app"><b>Real-world example:</b> a class that needs to be both a Logger and an Analytics tracker — delegate both interfaces to separate injected objects instead of hand-rolling every method, and swap either implementation (e.g. for tests) without touching the composing class.</div>
+<p><b>Interview points:</b> know why delegation is often preferred over subclassing an abstract base — it avoids deep, fragile inheritance chains ("favour composition over inheritance") while still satisfying the type contract, and each behaviour (logging, analytics) can be swapped independently at construction time.</p>
+<div class="connect"><b>Connects to →</b> Interface (the contract being delegated); contrasts directly with Open Classes/Inheritance.</div>`},
+]},
+{id:"boxing", title:"Boxing / Unboxing", html:`
+<h2>Boxing / Unboxing</h2>
+<p class="tag">Tier 2 · Good to know</p>
+<div class="def"><b>Definition:</b> Int compiles to raw primitive int when possible. It's boxed into java.lang.Integer when the language needs an object — nullability (Int?) or generics (List&lt;Int&gt;).</div>
+<pre><code>val a: Int = 5          // primitive
+val b: Int? = 5         // boxed
+val list: List<Int> = listOf(1,2,3)   // each element boxed</code></pre>
+<div class="app"><b>Real-world example:</b> summing a million-element List&lt;Int&gt; pays boxing overhead per element; IntArray avoids it — a real optimisation in hot loops.</div>
+<p><b>Interview points:</b> know exactly when boxing happens — nullable numerics, generic collections.</p>
+<div class="connect"><b>Connects to →</b> Everything is a Value; Collections (Homogeneous Primitive Types).</div>`},
+{subgroup:"Four Pillars", tabs:[
+{id:"pillar-encap", title:"Encapsulation", html:`
+<h2>Four Pillars → Encapsulation</h2>
+<p class="tag">Tier 2 · Critical</p>
+<div class="def"><b>Definition:</b> hiding an object's internal state and exposing only a controlled, deliberate way to read or change it — so the class, not the caller, decides which changes are valid.</div>
+<pre><code>class BankAccount(startBalance: Double) {
+    private var _balance = startBalance          // hidden internal state
+    val balance: Double get() = _balance          // read-only external view
+
+    fun deposit(amount: Double) {
+        require(amount > 0) { "Deposit must be positive" }
+        _balance += amount
+    }
+}
+val acc = BankAccount(100.0)
+acc.deposit(50.0)
+println(acc.balance)   // 150.0
+// acc._balance = -999  // won't compile — no such accessible property</code></pre>
+<div class="app"><b>Real-world example:</b> a BankAccount class that only allows balance changes through deposit()/withdraw() methods that validate the amount — external code can never set an invalid negative balance directly.</div>
+<p><b>Interview points:</b> Kotlin's default visibility is <code>public</code>; know the full modifier set — <code>private</code> (this class only), <code>protected</code> (this + subclasses), <code>internal</code> (same module), <code>public</code> (everywhere) — and that custom get/set are the idiomatic way to add validation without changing the call site.</p>
+<div class="connect"><b>Connects to →</b> Classes &amp; Members' custom get/set; Immutable Collections uses the same "expose read-only view" pattern.</div>`},
+{id:"pillar-abstract", title:"Abstraction", html:`
+<h2>Four Pillars → Abstraction</h2>
+<p class="tag">Tier 2 · Critical</p>
+<div class="def"><b>Definition:</b> exposing <em>what</em> an object does while hiding <em>how</em> it does it — callers depend on a simple contract, not the implementation details behind it.</div>
+<pre><code>interface PaymentMethod {
+    fun charge(amount: Double): Boolean     // WHAT — no HOW here
+}
+class CreditCard(val number: String) : PaymentMethod {
+    override fun charge(amount: Double): Boolean {
+        // HOW — talks to a card network, retries, handles declines...
+        return true
+    }
+}
+fun checkout(method: PaymentMethod, total: Double) {
+    if (method.charge(total)) println("Paid!")   // caller never sees the HOW
+}</code></pre>
+<div class="app"><b>Real-world example:</b> a checkout flow calling <code>paymentMethod.charge(total)</code> without knowing or caring whether it talks to a credit card network, PayPal, or a wallet — swapping the implementation never touches checkout's code.</div>
+<p><b>Interview points:</b> abstraction is implemented via <code>interface</code> and <code>abstract class</code> in Kotlin; be ready to explain the practical difference (see Interface and Open/Abstract Classes tabs) and why abstraction reduces coupling between modules.</p>
+<div class="connect"><b>Connects to →</b> Interface and Abstract Classes are the two Kotlin mechanisms for this pillar.</div>`},
+{id:"pillar-inherit", title:"Inheritance", html:`
+<h2>Four Pillars → Inheritance</h2>
+<p class="tag">Tier 2 · Critical</p>
+<div class="def"><b>Definition:</b> deriving a new class that reuses and extends another class's members. In Kotlin, classes and members are <code>final</code> by default — a class must be marked <code>open</code> to allow subclassing, and a member must be marked <code>open</code> to allow overriding.</div>
+<pre><code>open class Vehicle(val brand: String) {
+    open fun describe() = "A vehicle by $brand"
+}
+class Car(brand: String, val doors: Int) : Vehicle(brand) {
+    override fun describe() = super.describe() + " with $doors doors"   // super. reuses parent logic
+}
+val c = Car("Toyota", 4)
+println(c.describe())   // "A vehicle by Toyota with 4 doors"</code></pre>
+<div class="app"><b>Real-world example:</b> a base <code>Vehicle</code> class holding shared fields like brand/year, with <code>Car</code>/<code>Truck</code> subclasses adding their own specific fields (doors, towCapacity) while reusing the shared description logic via <code>super</code>.</div>
+<p><b>Interview points:</b> explain why Kotlin defaults to final (deliberate design over Java's implicit openness), and know that a subclass calls <code>super.method()</code> to reuse rather than fully replace parent behaviour — versus Interface Delegation, which forwards to a separate object instead of a parent class.</p>
+<div class="connect"><b>Connects to →</b> Open Classes (the enabling keyword); contrasts directly with Interface Delegation (composition).</div>`},
+{id:"pillar-poly", title:"Polymorphism", html:`
+<h2>Four Pillars → Polymorphism</h2>
+<p class="tag">Tier 2 · Critical</p>
+<div class="def"><b>Definition:</b> "many forms" — the same call produces different behaviour depending on the actual runtime type. Kotlin supports both runtime polymorphism (override on open members) and compile-time polymorphism (function/operator overloading).</div>
+<pre><code>open class Animal { open fun sound() = "..." }
+class Dog : Animal() { override fun sound() = "Woof" }
+class Cat : Animal() { override fun sound() = "Meow" }
+
+val animals: List<Animal> = listOf(Dog(), Cat())
+for (a in animals) println(a.sound())   // "Woof" then "Meow" — resolved at runtime
+
+// Compile-time polymorphism: overloading
+fun combine(a: Int, b: Int) = a + b
+fun combine(a: String, b: String) = a + b   // same name, different signature</code></pre>
+<div class="app"><b>Real-world example:</b> iterating over a <code>List&lt;Animal&gt;</code> containing different subclasses and calling <code>a.sound()</code> on each — one line of code, different behaviour per actual object, without any if/else type-checking.</div>
+<p><b>Interview points:</b> distinguish runtime polymorphism (override, resolved via the actual object's type at runtime — "dynamic dispatch") from compile-time polymorphism (overloading, resolved by the compiler from argument types at compile time — "static dispatch").</p>
+<div class="connect"><b>Connects to →</b> Open Classes/Inheritance (the override mechanism); Sealed Classes' exhaustive when is a compile-time-checked alternative to runtime polymorphism.</div>`},
+]},
+]},
+{group:"Tier 3 · Collections", color:"var(--t3)", tabs:[
+{id:"coll-overview", title:"Collections — Overview", html:`
+<h2>Collections</h2>
+<p class="tag">Tier 3 · High · Requires Tier 1–2</p>
+<div class="def"><b>Definition:</b> a collection groups multiple values into one object so they can be stored, passed around, and processed as a unit, instead of managing each value through its own variable.</div>
+<h3>The three core shapes</h3>
+<div class="table-scroll"><table><tr><th>Type</th><th>Ordered?</th><th>Duplicates?</th><th>Access</th><th>Backed by</th></tr>
+<tr><td>List</td><td>Yes</td><td>Yes</td><td>by index</td><td>ArrayList (default)</td></tr>
+<tr><td>Set</td><td>No (Linked variant keeps insertion order)</td><td>No</td><td>by value</td><td>LinkedHashSet (default)</td></tr>
+<tr><td>Map</td><td>No (Linked variant keeps order)</td><td>Keys unique, values can repeat</td><td>by key</td><td>LinkedHashMap (default)</td></tr></table></div>
+<pre><code>val nums = listOf(1, 2, 3, 4, 5)
+val set  = setOf(1, 2, 2, 3)          // [1, 2, 3] — duplicate silently dropped
+val map  = mapOf("a" to 1, "b" to 2)  // {a=1, b=2}
+
+for ((key, value) in map) println("$key -> $value")   // destructuring iteration</code></pre>
+<h3>Core functional operators</h3>
+<pre><code>val doubled  = nums.map { it * 2 }               // [2,4,6,8,10] — transform each element
+val evens    = nums.filter { it % 2 == 0 }        // [2,4] — keep matching elements
+val sum      = nums.fold(0) { acc, n -> acc + n } // 15 — reduce to one value, with a seed
+val grouped  = nums.groupBy { it % 2 == 0 }       // {false=[1,3,5], true=[2,4]}
+val sorted   = nums.sortedByDescending { it }     // [5,4,3,2,1]
+val unique   = listOf(1,1,2,2,3).distinct()       // [1,2,3]
+val any5     = nums.any { it == 5 }               // true — at least one matches
+val all5     = nums.all { it > 0 }                // true — every element matches
+val first3   = nums.take(3)                       // [1,2,3]
+val zipped   = listOf("a","b").zip(listOf(1,2))   // [(a,1), (b,2)]</code></pre>
+<div class="app"><b>Real-world example:</b> <code>orders.filter { it.isPaid }.map { it.toReceipt() }</code> reads like a sentence and replaces a manual loop with an if-check and a temporary output list.</div>
+<p><b>Interview points:</b> know the three shapes' identities instantly (List/Set/Map), and be ready to justify a choice for a described scenario — unique tags → Set, lookup-by-id → Map, ordered history → List.</p>
+<div class="connect"><b>Connects to →</b> everything below is a deeper look at this same idea; Flow's operators mirror these functional operators.</div>`},
+{id:"coll-filters", title:"Collection Filters", html:`
+<h2>Collections → Collection Filters</h2>
+<p class="tag">Tier 3 · High</p>
+<div class="def"><b>Definition:</b> filtering operators produce a new collection containing only the elements that satisfy a given predicate (a lambda returning Boolean), without mutating the original collection.</div>
+<pre><code>val nums = listOf(1, 2, 3, 4, 5, 6)
+
+val evens     = nums.filter { it % 2 == 0 }          // [2,4,6] — keep matches
+val odds      = nums.filterNot { it % 2 == 0 }        // [1,3,5] — keep non-matches
+val indexed   = nums.filterIndexed { i, v -> i > 2 }  // [4,5,6] — predicate sees the index too
+
+val mixed: List<Any> = listOf(1, "a", 2, "b")
+val onlyInts  = mixed.filterIsInstance<Int>()          // [1, 2] — keep by runtime type
+
+val (evensP, oddsP) = nums.partition { it % 2 == 0 }   // ([2,4,6], [1,3,5]) — split into TWO lists
+val firstHalf = nums.takeWhile { it < 4 }              // [1,2,3] — stop at the first failure
+val afterThat = nums.dropWhile { it < 4 }              // [4,5,6] — opposite of takeWhile
+
+val map = mapOf("a" to 1, "b" to 2, "c" to 3)
+val bigValues = map.filterValues { it > 1 }             // {b=2, c=3}
+val aKeys     = map.filterKeys { it == "a" }             // {a=1}</code></pre>
+<div class="table-scroll"><table><tr><th>Function</th><th>Returns</th><th>Use when</th></tr>
+<tr><td>filter</td><td>Elements matching the predicate</td><td>General-purpose filtering</td></tr>
+<tr><td>filterNot</td><td>Elements NOT matching</td><td>Inverse of filter</td></tr>
+<tr><td>filterIndexed</td><td>Matches, predicate also sees index</td><td>Position-dependent filtering</td></tr>
+<tr><td>filterIsInstance</td><td>Elements of a given type</td><td>Narrowing a heterogeneous collection</td></tr>
+<tr><td>partition</td><td>Pair of (matches, non-matches)</td><td>Need BOTH groups, not just one</td></tr>
+<tr><td>takeWhile / dropWhile</td><td>A prefix/suffix based on the predicate</td><td>Data is already ordered by the relevant condition</td></tr></table></div>
+<div class="app"><b>Real-world example:</b> <code>orders.filter { it.isPaid }</code> to show only completed orders, or <code>mixedApiResponse.filterIsInstance&lt;String&gt;()</code> to safely pull out just the string entries from a loosely-typed JSON array (see Heterogeneous Collections).</div>
+<p><b>Interview points:</b> know that <code>filter</code> always allocates a new List (eager, like <code>map</code>) — for very large collections chained with several filters/maps, prefer <code>asSequence()</code> first to avoid intermediate list allocations at each step.</p>
+<div class="connect"><b>Connects to →</b> Overview (filter is introduced there); Heterogeneous Collections (filterIsInstance is the safe way to narrow one); Flow's own <code>.filter{}</code> operator mirrors this exactly.</div>`},
+{subgroup:"Collection Types", tabs:[
+{subgroup:"Homogeneous", tabs:[
+{id:"coll-homo-prim", title:"Primitive Types", html:`
+<h2>Collection Types → Homogeneous → Primitive Types</h2>
+<p class="tag">Tier 3 · High</p>
+<div class="def"><b>Definition:</b> a homogeneous collection holds elements of exactly one type. When that type is numeric/boolean, Kotlin offers specialised array classes — <code>IntArray</code>, <code>DoubleArray</code>, <code>LongArray</code>, <code>BooleanArray</code>, <code>CharArray</code>, etc. — that store raw JVM primitives directly, avoiding the boxing a generic <code>List&lt;Int&gt;</code> would incur.</div>
+<pre><code>val scores: IntArray = intArrayOf(90, 85, 72)     // raw int[] under the hood, no boxing
+val zeros:  IntArray = IntArray(5)                // [0,0,0,0,0] — fixed size, default-initialized
+val gen:    IntArray = IntArray(5) { it * it }     // [0,1,4,9,16] — built from a lambda
+
+val avg = scores.average()
+val max = scores.max()
+val asList: List<Int> = scores.toList()            // converting to List boxes every element
+scores[0] = 100                                     // mutable content, fixed size (no add/remove)</code></pre>
+<div class="table-scroll"><table><tr><th></th><th>IntArray</th><th>List&lt;Int&gt;</th></tr>
+<tr><td>Storage</td><td>Raw int[], unboxed</td><td>Boxed Integer objects</td></tr>
+<tr><td>Size</td><td>Fixed once created</td><td>Grows/shrinks (if Mutable)</td></tr>
+<tr><td>Best for</td><td>Large numeric data, performance-sensitive code</td><td>General-purpose, richer functional API</td></tr></table></div>
+<div class="app"><b>Real-world example:</b> storing raw sensor readings or pixel RGB values as an IntArray in a performance-critical image-processing or game loop, where boxing overhead on millions of elements would be measurable.</div>
+<p><b>Interview points:</b> IntArray exists specifically to avoid boxing — this directly extends the Boxing/Unboxing topic into collections; know that IntArray has a fixed size (no add/remove), unlike a MutableList.</p>
+<div class="connect"><b>Connects to →</b> Boxing/Unboxing directly; contrast with Non-Primitive Types below.</div>`},
+{id:"coll-homo-nonprim", title:"Non-Primitive Types", html:`
+<h2>Collection Types → Homogeneous → Non-Primitive Types</h2>
+<p class="tag">Tier 3 · High</p>
+<div class="def"><b>Definition:</b> a homogeneous collection of a single reference (object) type — the everyday case: <code>List&lt;String&gt;</code>, <code>Set&lt;User&gt;</code>, <code>Map&lt;String, Order&gt;</code>. Every element shares the exact declared type, enforced by Kotlin's generics at compile time, so every operator on it is type-safe with no manual casting.</div>
+<pre><code>data class User(val id: Int, val name: String)
+val users: List<User> = listOf(User(1, "Ana"), User(2, "Ravi"))
+
+val ids: List<Int> = users.map { it.id }                 // compiler knows every element is a User
+val ravi: User? = users.find { it.name == "Ravi" }        // typed result, no cast needed
+val byId: Map<Int, User> = users.associateBy { it.id }    // {1=User(...), 2=User(...)}</code></pre>
+<div class="app"><b>Real-world example:</b> a list of User objects returned from an API and rendered in a RecyclerView/LazyColumn — every item is guaranteed to be a User, so the adapter code never needs a runtime type check or cast.</div>
+<p><b>Interview points:</b> this is the default, expected shape of a collection — interviewers use "heterogeneous" as the contrast case to test whether you understand why homogeneous is preferred (type safety, no casting, safer refactors).</p>
+<div class="connect"><b>Connects to →</b> Classes/data classes (the element type); contrast directly with Heterogeneous Collections.</div>`},
+]},
+{id:"coll-hetero", title:"Heterogeneous", html:`
+<h2>Collection Types → Heterogeneous</h2>
+<p class="tag">Tier 3 · Good to know</p>
+<div class="def"><b>Definition:</b> a collection holding elements of more than one type, typically typed as <code>List&lt;Any&gt;</code> or via a common supertype/sealed hierarchy. Kotlin discourages true mixed-type collections because they trade away compile-time type safety.</div>
+<pre><code>val mixed: List<Any> = listOf(1, "two", 3.0, true)
+for (item in mixed) {
+    when (item) {                 // must check type before using it
+        is Int -> println("int: $item")
+        is String -> println("string: $item")
+        else -> println("other: $item")
+    }
+}
+val pair:  Pair<Int, String>        = 1 to "one"           // two related values, different types
+val triple: Triple<Int, String, Boolean> = Triple(1, "one", true)</code></pre>
+<div class="app"><b>Real-world example:</b> parsing a loosely-typed JSON array (mixed numbers, strings, booleans) from an external API into List&lt;Any&gt;, then narrowing each element with when(item is ...) before use; Pair/Triple are the safer, structured alternative when you just need two or three related values of different types together.</div>
+<p><b>Interview points:</b> know why heterogeneous collections are a last resort — you lose compile-time type checking and must smart-cast every element before use. Prefer a sealed class hierarchy or Pair/Triple/a proper data class when the "different types" are actually structured, known data.</p>
+<div class="connect"><b>Connects to →</b> Sealed Classes are usually the safer alternative; smart casting is what makes the when above work.</div>`},
+]},
+{id:"coll-immutable", title:"Immutable Collections", html:`
+<h2>Immutable (Read-Only) Collections</h2>
+<p class="tag">Tier 3 · High</p>
+<div class="def"><b>Definition:</b> created with <code>listOf</code>, <code>setOf</code>, <code>mapOf</code>, these expose only read operations (get, size, iteration) — no add/remove/set in their interface. This is a read-only <em>view</em> at the type level, not always deep, guaranteed immutability of the underlying object.</div>
+<pre><code>val names: List<String> = listOf("Ana", "Ravi")
+// names.add("Leo")     // compile error — no such method on List
+
+val backing = mutableListOf("Ana")
+val view: List<String> = backing              // read-only VIEW of a mutable list
+backing.add("Ravi")
+println(view)                                 // [Ana, Ravi] — view reflects the change!
+
+val trueCopy: List<String> = backing.toList() // a real, independent copy
+backing.add("Leo")
+println(trueCopy)                             // [Ana, Ravi] — unaffected</code></pre>
+<div class="app"><b>Real-world example:</b> a repository class exposing <code>val users: List&lt;User&gt; get() = _users</code> (backed internally by a MutableList) so external code can read the data but can't mutate it directly — a common encapsulation pattern in Android/backend codebases.</div>
+<p><b>Interview points:</b> "immutable" here means the reference/interface has no mutating methods — it is not the same as a guaranteed-unchangeable object underneath. Know the "view vs copy" gotcha above (<code>backing</code> as <code>List</code> vs <code>.toList()</code>) — it's a common trick question.</p>
+<div class="connect"><b>Connects to →</b> val vs var (Variables) is the same reference-vs-content distinction one level up; contrast directly with Mutable Collections.</div>`},
+{id:"coll-mutable", title:"Mutable Collections", html:`
+<h2>Mutable Collections</h2>
+<p class="tag">Tier 3 · High</p>
+<div class="def"><b>Definition:</b> created with <code>mutableListOf</code>, <code>mutableSetOf</code>, <code>mutableMapOf</code> (or concrete types like <code>ArrayList</code>, <code>HashMap</code>), these expose the full read and write API — add, remove, set, clear, and more.</div>
+<pre><code>val cart = mutableListOf<String>()
+cart.add("Book")
+cart.add("Pen")
+cart.remove("Pen")
+cart[0] = "Notebook"          // set by index
+cart.addAll(listOf("Ruler", "Eraser"))
+cart.removeIf { it.startsWith("E") }
+println(cart)                 // [Notebook, Ruler]</code></pre>
+<div class="table-scroll"><table><tr><th></th><th>Immutable (List)</th><th>Mutable (MutableList)</th></tr>
+<tr><td>API surface</td><td>Read-only</td><td>Read + write</td></tr>
+<tr><td>Safety</td><td>Safer to pass across function/thread boundaries</td><td>Risk of unexpected mutation by any holder of the reference</td></tr>
+<tr><td>Typical use</td><td>Data flowing out (return types, exposed state)</td><td>Data being actively built up or edited</td></tr></table></div>
+<div class="app"><b>Real-world example:</b> building a shopping cart as the user taps "add to cart" repeatedly — a MutableList&lt;CartItem&gt; appended to over time, then exposed to the rest of the app as a read-only List once checkout is reached.</div>
+<p><b>Interview points:</b> standard practice is to keep mutable state private inside a class and expose only an immutable read-only view publicly (see Immutable Collections' gotcha) — this prevents external code from mutating internal state unexpectedly. Also be aware that iterating and mutating the same MutableList at once throws ConcurrentModificationException.</p>
+<div class="connect"><b>Connects to →</b> directly paired with Immutable Collections; Classes &amp; Members' encapsulation pattern uses exactly this pairing.</div>`},
+]},
+{group:"Tier 4 · Concurrency", color:"var(--t4)", tabs:[
+{id:"coroutines", title:"Coroutines", html:`
+<h2>Coroutines</h2>
+<p class="tag">Tier 4 · High · Requires Tiers 1–3</p>
+<div class="def"><b>Definition:</b> lightweight, cooperatively-scheduled units of concurrency. Many coroutines can run on one thread by <em>suspending</em> (voluntarily yielding control at a defined point) instead of blocking it. A <code>suspend fun</code> is compiled by the Kotlin compiler into a state machine (continuation-passing) that can pause and later resume exactly where it left off, without blocking its underlying thread.</div>
+<h3>Suspend functions</h3>
+<pre><code>suspend fun fetchUser(): User {          // can only be called from a coroutine or another suspend fun
+    delay(1000)                          // suspends here — thread is freed for other work
+    return api.getUser()
+}</code></pre>
+<h3>Builders — starting a coroutine</h3>
+<div class="table-scroll"><table><tr><th>Builder</th><th>Returns</th><th>Use when</th></tr>
+<tr><td><code>launch</code></td><td><code>Job</code></td><td>Fire-and-forget — you don't need a result back</td></tr>
+<tr><td><code>async</code></td><td><code>Deferred&lt;T&gt;</code></td><td>You need a value back later, via <code>.await()</code></td></tr>
+<tr><td><code>runBlocking</code></td><td>The lambda's result</td><td>Bridges blocking code to suspend code — mainly tests/main()</td></tr></table></div>
+<pre><code>fun loadScreen(scope: CoroutineScope) = scope.launch {
+    val user  = async { fetchUser() }     // starts immediately, runs concurrently
+    val posts = async { fetchPosts() }    // starts immediately too
+    render(user.await(), posts.await())   // suspends here until BOTH are ready
+}</code></pre>
+<h3>CoroutineContext &amp; Dispatchers</h3>
+<p>Every coroutine runs with a <code>CoroutineContext</code> — a set of elements including which thread pool to use (<code>Dispatchers</code>) and how to handle uncaught errors.</p>
+<div class="table-scroll"><table><tr><th>Dispatcher</th><th>Backed by</th><th>Use for</th></tr>
+<tr><td>Dispatchers.Main</td><td>The UI thread</td><td>Updating UI, calling lifecycle-bound code</td></tr>
+<tr><td>Dispatchers.IO</td><td>A large, elastic thread pool</td><td>Blocking I/O — network calls, disk, database</td></tr>
+<tr><td>Dispatchers.Default</td><td>A pool sized to CPU cores</td><td>CPU-heavy work — sorting, parsing, computation</td></tr></table></div>
+<pre><code>suspend fun fetchUser(): User = withContext(Dispatchers.IO) {
+    api.getUser()          // runs on the IO pool, then hops back automatically
+}</code></pre>
+<h3>Structured concurrency</h3>
+<div class="flow">scope.launch {                 parent Job
+    launch { childA() }   ──▶  child Job (tracked by parent)
+    launch { childB() }   ──▶  child Job (tracked by parent)
+}
+scope cancelled/errors  ──▶  ALL children cancelled automatically
+scope completes          ──▶  only once every child has completed</div>
+<p>Every coroutine is launched inside a <code>CoroutineScope</code>, which becomes its parent. Cancelling or erroring the scope propagates to every child; the scope itself doesn't finish until all children do. This eliminates leaked, orphaned background work.</p>
+<h3>Cancellation &amp; exceptions</h3>
+<pre><code>val job = scope.launch {
+    try {
+        repeat(1000) { i -> ensureActive(); delay(500); println(i) }
+    } catch (e: CancellationException) {
+        println("cleaned up")   // cooperative cancellation — cleanup runs here
+        throw e                  // rethrow — never swallow CancellationException
+    }
+}
+job.cancel()   // requests cancellation; the coroutine cooperates at the next suspension point
+
+// a failure in one launch child cancels ALL siblings under a plain Job —
+// use SupervisorJob to isolate failures instead:
+val supervisor = CoroutineScope(SupervisorJob())
+supervisor.launch { throw RuntimeException("A failed") }  // doesn't cancel siblings
+supervisor.launch { println("B still runs") }</code></pre>
+<div class="app"><b>Real-world example:</b> an Android ViewModel using <code>viewModelScope.launch { ... }</code> to fetch data — if the user navigates away and the ViewModel is cleared, the scope cancels and every in-flight network call tied to it stops automatically, with no manual bookkeeping.</div>
+<p><b>Interview points:</b> know launch vs async instantly (fire-and-forget vs "I need a result"); explain why cooperative cancellation requires checking <code>isActive</code>/calling suspend functions (a tight CPU loop with no suspension point never actually cancels); know SupervisorJob's role in preventing one child's failure from cancelling its siblings.</p>
+<div class="connect"><b>Connects to →</b> a suspend fun is still a value (Everything is a Value); results are commonly modeled as sealed classes; Flow builds directly on top of this.</div>`},
+{id:"flow", title:"Flow", html:`
+<h2>Flow</h2>
+<p class="tag">Tier 4 · High · Requires Coroutines</p>
+<div class="def"><b>Definition:</b> an asynchronous, <em>cold</em> stream that can emit multiple values over time, built entirely on coroutines. "Cold" means the producer block inside <code>flow { }</code> does not run at all until a collector calls <code>.collect { }</code>, and it re-runs independently, from the start, for every new collector.</div>
+<h3>Building a Flow</h3>
+<pre><code>fun countdown(): Flow<Int> = flow {         // flow{} builder — a suspendable producer
+    for (i in 3 downTo 1) { delay(1000); emit(i) }
+}
+val fixed: Flow<Int> = flowOf(1, 2, 3)       // fixed set of values
+val fromList: Flow<Int> = listOf(1,2,3).asFlow()  // adapt an existing collection</code></pre>
+<h3>Intermediate operators (lazy, per-emission)</h3>
+<pre><code>countdown()
+    .map { it * 10 }                 // transform each emission
+    .filter { it > 10 }              // keep matching emissions
+    .onEach { println("saw $it") }   // side-effect, doesn't change the stream
+    .take(2)                         // stop after 2 emissions</code></pre>
+<h3>Terminal operators — actually running the Flow</h3>
+<pre><code>viewModelScope.launch {
+    countdown().collect { value -> println(value) }   // this call triggers the producer to run
+    val list = countdown().toList()                     // collect() variant returning a List
+    val firstOnly = countdown().first()                 // suspends until the first emission, then stops
+}</code></pre>
+<h3>Exception handling</h3>
+<pre><code>flow {
+    emit(1)
+    throw RuntimeException("boom")
+}
+.catch { e -> emit(-1) }        // catches upstream exceptions, can emit a fallback
+.collect { println(it) }        // prints 1, then -1</code></pre>
+<h3>Cold Flow vs hot StateFlow/SharedFlow</h3>
+<div class="table-scroll"><table><tr><th></th><th>suspend fun</th><th>Flow&lt;T&gt;</th><th>StateFlow / SharedFlow</th></tr>
+<tr><td>Values</td><td>One, once</td><td>Many, over time</td><td>Many, over time</td></tr>
+<tr><td>Temperature</td><td>—</td><td>Cold (re-runs per collector)</td><td>Hot (shared, runs regardless of collectors)</td></tr>
+<tr><td>Typical use</td><td>One-shot request</td><td>Live search, DB stream</td><td>UI state (StateFlow), one-off events (SharedFlow)</td></tr></table></div>
+<pre><code>class MyViewModel : ViewModel() {
+    private val _uiState = MutableStateFlow(UiState.Loading)   // always has a current value
+    val uiState: StateFlow<UiState> = _uiState                  // read-only view, exposed to UI
+
+    init {
+        viewModelScope.launch {
+            _uiState.value = UiState.Success(repository.getData())
+        }
+    }
+}</code></pre>
+<h3>Buffering</h3>
+<p><code>buffer()</code> lets the producer run ahead of a slow collector instead of waiting for it each time; <code>conflate()</code> instead drops intermediate values when the collector falls behind, keeping only the latest.</p>
+<div class="app"><b>Real-world example:</b> a Room database DAO returning <code>Flow&lt;List&lt;Note&gt;&gt;</code> — the UI automatically re-renders every time a note is added or deleted, because it's a live query rather than a one-time read; the ViewModel exposes app-wide UI state via StateFlow so the screen always has a current value even without an active collector at that instant.</div>
+<p><b>Interview points:</b> "cold vs hot" is the single most-asked Flow question, almost always followed by "when would you use StateFlow instead of a plain Flow?" (answer: shared, always-available UI state that must survive configuration changes, vs a one-off live stream computed per subscriber).</p>
+<div class="connect"><b>Connects to →</b> Sequence (Collections) is the synchronous, pull-based cousin of Flow's async, push-based model; both are built on Coroutines; sealed classes are the common way to model Flow/StateFlow's emitted values (Loading/Success/Error).</div>`},
+]},
+{group:"Tier 5 · Android Essentials", color:"var(--t5)", tabs:[
+{subgroup:"Components &amp; Lifecycle", tabs:[
+{id:"an-lifecycle", title:"Activity &amp; Fragment Lifecycle", html:`
+<h2>Android → Activity &amp; Fragment Lifecycle</h2>
+<p class="tag">Tier 5 · Critical</p>
+<div class="def"><b>Definition:</b> the Android OS owns the lifetime of an Activity/Fragment, calling a fixed sequence of callback methods as the screen is created, shown, hidden, and destroyed — your code hooks into these instead of controlling its own lifetime.</div>
+<div class="flow">onCreate() → onStart() → onResume()   [screen visible &amp; interactive]
+      ▲                          │
+      │                    onPause() → onStop()   [screen hidden]
+      │                          │
+   onRestart()  ◀────────────────┘
+                           onDestroy()  [screen gone]</div>
+<pre><code>class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)   // inflate UI — runs once
+    }
+    override fun onStart() { super.onStart() }    // becoming visible
+    override fun onResume() { super.onResume() }  // interactive — start camera/sensors here
+    override fun onPause() { super.onPause() }    // losing focus — stop camera/sensors here
+    override fun onDestroy() { super.onDestroy() } // cleanup — release resources
+}</code></pre>
+<div class="app"><b>Real-world example:</b> a camera preview is started in onResume() and stopped in onPause() so the hardware isn't held when the screen isn't visible — starting it in onCreate() instead would keep the camera locked even when another app is in the foreground.</div>
+<p><b>Interview points:</b> know why onCreate() can run more than once per "session" (configuration changes like rotation destroy and recreate the Activity by default) and how <code>ViewModel</code> survives that recreation while a plain property doesn't.</p>
+<div class="connect"><b>Connects to →</b> ViewModel &amp; UI State (survives what the lifecycle doesn't); Coroutines (viewModelScope is tied to this lifecycle).</div>`},
+{id:"an-application", title:"Application Class", html:`
+<h2>Android → Application Class</h2>
+<p class="tag">Tier 5 · Good to know</p>
+<div class="def"><b>Definition:</b> a single object created once when the app process starts, before any Activity — the right place for app-wide, one-time initialization (DI graphs, logging, crash reporting).</div>
+<pre><code>class MyApp : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        Timber.plant(Timber.DebugTree())   // e.g. logging setup, runs once for the whole app
+    }
+}</code></pre>
+<p>Registered in <code>AndroidManifest.xml</code> via <code>&lt;application android:name=".MyApp"&gt;</code>.</p>
+<div class="app"><b>Real-world example:</b> initializing a Hilt dependency graph or a global crash reporter (Firebase Crashlytics) exactly once, regardless of which Activity the user opens first.</div>
+<p><b>Interview points:</b> know it's a singleton scoped to the whole process lifetime, longer-lived than any single Activity — but avoid storing large data or Activity references in it (memory leak risk).</p>
+<div class="connect"><b>Connects to →</b> Dependency Injection (Hilt's @HiltAndroidApp attaches here); Singleton class type (conceptually similar scope).</div>`},
+{id:"an-intents", title:"Intents", html:`
+<h2>Android → Intents</h2>
+<p class="tag">Tier 5 · Critical</p>
+<div class="def"><b>Definition:</b> a messaging object used to request an action from another app component — starting an Activity, launching a system feature (camera, share sheet), or passing data between screens.</div>
+<pre><code>// Explicit intent — target component known
+val intent = Intent(this, DetailActivity::class.java)
+intent.putExtra("USER_ID", 42)
+startActivity(intent)
+
+// Reading the extra on the receiving side
+val userId = intent.getIntExtra("USER_ID", -1)
+
+// Implicit intent — describe the action, let the OS pick a handler
+val shareIntent = Intent(Intent.ACTION_SEND).apply {
+    type = "text/plain"
+    putExtra(Intent.EXTRA_TEXT, "Check this out!")
+}
+startActivity(Intent.createChooser(shareIntent, "Share via"))</code></pre>
+<div class="app"><b>Real-world example:</b> tapping a list item opens a detail screen via an explicit Intent carrying the item's ID; a "Share" button uses an implicit Intent so the OS shows every app capable of handling text (Messages, Email, WhatsApp...).</div>
+<p><b>Interview points:</b> distinguish explicit (exact target class — screen-to-screen navigation) from implicit (describes an action — lets the system/user pick a handler); know that extras must be primitive/Parcelable/Serializable types.</p>
+<div class="connect"><b>Connects to →</b> Navigation Component (a higher-level alternative for in-app screen navigation).</div>`},
+]},
+{subgroup:"UI", tabs:[
+{id:"an-views", title:"View &amp; XML System", html:`
+<h2>Android → View &amp; XML System</h2>
+<p class="tag">Tier 5 · High</p>
+<div class="def"><b>Definition:</b> the original Android UI toolkit — layouts and widgets are declared in XML resource files, then inflated into a tree of <code>View</code> objects at runtime and manipulated imperatively from code.</div>
+<pre><code>&lt;!-- res/layout/activity_main.xml --&gt;
+&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"&gt;
+    &lt;TextView android:id="@+id/title" android:text="Hello" /&gt;
+    &lt;Button android:id="@+id/btn" android:text="Click me" /&gt;
+&lt;/LinearLayout&gt;</code></pre>
+<pre><code>// Kotlin side — findViewById or View Binding
+binding.btn.setOnClickListener {
+    binding.title.text = "Clicked!"   // imperative: mutate the View directly
+}</code></pre>
+<div class="app"><b>Real-world example:</b> most existing/legacy Android codebases still use XML layouts + View Binding; you'll likely maintain such screens even on a Compose-first team.</div>
+<p><b>Interview points:</b> know View Binding (type-safe, replaces findViewById) vs the older, unsafe findViewById; understand the tree/imperative mutation model as the contrast point for Compose's declarative model.</p>
+<div class="connect"><b>Connects to →</b> Jetpack Compose (the declarative alternative); Activity Lifecycle (setContentView in onCreate).</div>`},
+{id:"an-compose", title:"Jetpack Compose", html:`
+<h2>Android → Jetpack Compose</h2>
+<p class="tag">Tier 5 · Critical (default for new roles)</p>
+<div class="def"><b>Definition:</b> Android's modern, declarative UI toolkit — the UI is described as a function of state (<code>@Composable</code> functions), and the framework automatically re-runs ("recomposes") only the parts that depend on data that changed, instead of you manually mutating Views.</div>
+<pre><code>@Composable
+fun Greeting(name: String) {
+    var clicked by remember { mutableStateOf(false) }   // state survives recomposition
+    Column {
+        Text(text = if (clicked) "Hello, $name!" else "Tap the button")
+        Button(onClick = { clicked = true }) { Text("Greet") }
+    }
+}</code></pre>
+<div class="app"><b>Real-world example:</b> the same greeting screen in Compose needs no findViewById/Binding — the UI just re-renders itself whenever <code>clicked</code> changes, because Compose tracks that dependency automatically.</div>
+<p><b>Interview points:</b> explain "declarative UI as a function of state" and recomposition vs the imperative View system's manual mutation; know <code>remember</code>/<code>mutableStateOf</code> as the basic state-holding building blocks, and that Compose functions are just regular higher-order/composable Kotlin functions under the hood.</p>
+<div class="connect"><b>Connects to →</b> Higher-Order Functions (Composables take @Composable lambdas as parameters); StateFlow (commonly collected as Compose state via collectAsState()).</div>`},
+]},
+{subgroup:"Architecture", tabs:[
+{id:"an-viewmodel", title:"ViewModel &amp; UI State", html:`
+<h2>Android → ViewModel &amp; UI State</h2>
+<p class="tag">Tier 5 · Critical</p>
+<div class="def"><b>Definition:</b> a lifecycle-aware class that holds UI-related data and survives configuration changes (like screen rotation) that would otherwise destroy and recreate the Activity/Fragment, so in-progress data and network calls aren't lost.</div>
+<pre><code>class UserViewModel(private val repo: UserRepository) : ViewModel() {
+    private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
+    val uiState: StateFlow<UiState> = _uiState
+
+    fun loadUser(id: Int) {
+        viewModelScope.launch {              // auto-cancelled when the ViewModel is cleared
+            _uiState.value = UiState.Success(repo.getUser(id))
+        }
+    }
+}
+val vm: UserViewModel by viewModels()   // delegated property — Activity/Fragment gets the SAME
+                                          // instance across configuration changes</code></pre>
+<div class="app"><b>Real-world example:</b> a profile screen keeps showing already-loaded data after the user rotates their phone, instead of re-fetching from the network and flashing a loading spinner again.</div>
+<p><b>Interview points:</b> explain exactly why a ViewModel survives rotation while the Activity doesn't (it's retained by the framework across the Activity's destroy/recreate cycle, tied to a longer-lived scope), and why it must never hold a direct Activity/View reference (memory leak).</p>
+<div class="connect"><b>Connects to →</b> Coroutines (viewModelScope), StateFlow (Flow tab), Delegated properties (by viewModels()).</div>`},
+{id:"an-navigation", title:"Navigation Component", html:`
+<h2>Android → Navigation Component</h2>
+<p class="tag">Tier 5 · High</p>
+<div class="def"><b>Definition:</b> a Jetpack library that manages moving between screens (destinations) through a declared navigation graph, handling the back stack, argument passing, and transitions consistently instead of manual Intent/FragmentTransaction juggling.</div>
+<pre><code>// Compose Navigation
+val navController = rememberNavController()
+NavHost(navController, startDestination = "home") {
+    composable("home") { HomeScreen(onOpenDetail = { id ->
+        navController.navigate("detail/$id")
+    }) }
+    composable("detail/{id}") { backStackEntry ->
+        val id = backStackEntry.arguments?.getString("id")
+        DetailScreen(id)
+    }
+}</code></pre>
+<div class="app"><b>Real-world example:</b> a "Home → Detail → Settings" flow where the system back button naturally retraces Detail then Home, because Navigation manages the back stack for you.</div>
+<p><b>Interview points:</b> know why Navigation is preferred over raw Intents for in-app screens (consistent back-stack handling, type-safe argument passing, single source of truth for the app's navigation graph).</p>
+<div class="connect"><b>Connects to →</b> Intents (the lower-level mechanism it wraps for in-app cases); Jetpack Compose (NavHost is composable-based).</div>`},
+{id:"an-mvvm", title:"MVVM / Clean Architecture", html:`
+<h2>Android → MVVM / Clean Architecture</h2>
+<p class="tag">Tier 5 · Critical</p>
+<div class="def"><b>Definition:</b> MVVM (Model-View-ViewModel) separates UI (View) from UI logic/state (ViewModel) from data (Model/Repository), so the View just observes state and the ViewModel never references the View directly. Clean Architecture adds a further Domain/UseCase layer between ViewModel and data sources for larger apps.</div>
+<div class="flow">View (Activity/Composable)
+   │ observes state, sends user actions
+   ▼
+ViewModel   (UI state, no Android View references)
+   │ calls
+   ▼
+Repository   (single source of truth — decides Room vs Retrofit)
+   │
+   ▼
+Room (local DB)  /  Retrofit (network)</div>
+<pre><code>class UserRepository(private val api: ApiService, private val dao: UserDao) {
+    suspend fun getUser(id: Int): User =
+        dao.getUser(id) ?: api.fetchUser(id).also { dao.insert(it) }   // local-first
+}</code></pre>
+<div class="app"><b>Real-world example:</b> a Repository that returns cached Room data instantly while a Retrofit call refreshes it in the background — the ViewModel doesn't know or care which source the data came from.</div>
+<p><b>Interview points:</b> be ready to draw the View → ViewModel → Repository → (Room/Retrofit) flow from memory and explain why each layer only depends on the one directly below it (testability, replaceable data sources).</p>
+<div class="connect"><b>Connects to →</b> Interfaces (Repository is usually an interface, for testability); ViewModel &amp; UI State; Room and Retrofit below.</div>`},
+]},
+{subgroup:"Data", tabs:[
+{id:"an-room", title:"Room", html:`
+<h2>Android → Room</h2>
+<p class="tag">Tier 5 · Critical</p>
+<div class="def"><b>Definition:</b> Jetpack's local database library — a type-safe wrapper over SQLite. You declare entities (tables), DAOs (query interfaces), and a Database class; Room generates the SQL boilerplate and can return results as Flow for reactive updates.</div>
+<pre><code>@Entity data class Note(@PrimaryKey val id: Int, val text: String)
+
+@Dao interface NoteDao {
+    @Query("SELECT * FROM Note") fun getAll(): Flow<List<Note>>   // live query
+    @Insert suspend fun insert(note: Note)
+}
+
+@Database(entities = [Note::class], version = 1)
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun noteDao(): NoteDao
+}</code></pre>
+<div class="app"><b>Real-world example:</b> a notes app where the list screen collects <code>noteDao.getAll()</code> as a Flow — the UI updates automatically the instant a note is inserted or deleted, with no manual refresh call.</div>
+<p><b>Interview points:</b> know the three building blocks (Entity/DAO/Database) and why returning Flow from a DAO gives "live" reactive queries versus a one-shot <code>suspend fun</code> that returns a plain List.</p>
+<div class="connect"><b>Connects to →</b> Flow (DAOs commonly return it); Data Classes (Entities are typically data classes); MVVM (Repository sits in front of Room).</div>`},
+{id:"an-retrofit", title:"Retrofit &amp; OkHttp", html:`
+<h2>Android → Retrofit &amp; OkHttp</h2>
+<p class="tag">Tier 5 · Critical</p>
+<div class="def"><b>Definition:</b> Retrofit turns an HTTP API into a type-safe Kotlin interface, converting JSON responses into data classes automatically; OkHttp is the underlying HTTP client handling the actual network requests, connection pooling, and interceptors.</div>
+<pre><code>interface ApiService {
+    @GET("users/{id}")
+    suspend fun getUser(@Path("id") id: Int): User   // suspend fun — plugs straight into coroutines
+}
+
+val retrofit = Retrofit.Builder()
+    .baseUrl("https://api.example.com/")
+    .addConverterFactory(GsonConverterFactory.create())
+    .build()
+val api = retrofit.create(ApiService::class.java)
+
+// usage inside a coroutine:
+val user = api.getUser(42)</code></pre>
+<div class="app"><b>Real-world example:</b> defining an ApiService interface once, then injecting it into a Repository — Retrofit handles serialization, threading off the main thread, and error propagation via ordinary Kotlin exceptions.</div>
+<p><b>Interview points:</b> know that a Retrofit method marked <code>suspend</code> automatically runs off the main thread and integrates directly with coroutines, no manual callback/thread-switching code needed — a big improvement over the old Callback-based API.</p>
+<div class="connect"><b>Connects to →</b> Coroutines (suspend functions); Interfaces (ApiService is defined as one); MVVM (Repository wraps it).</div>`},
+{id:"an-datastore", title:"DataStore", html:`
+<h2>Android → DataStore</h2>
+<p class="tag">Tier 5 · Good to know</p>
+<div class="def"><b>Definition:</b> Jetpack's modern replacement for SharedPreferences — stores small amounts of key-value or typed data asynchronously, exposing reads as a Flow so UI can react to preference changes automatically.</div>
+<pre><code>val Context.dataStore by preferencesDataStore(name = "settings")
+val DARK_MODE = booleanPreferencesKey("dark_mode")
+
+suspend fun setDarkMode(context: Context, enabled: Boolean) {
+    context.dataStore.edit { prefs -> prefs[DARK_MODE] = enabled }
+}
+val darkModeFlow: Flow<Boolean> = context.dataStore.data.map { it[DARK_MODE] ?: false }</code></pre>
+<div class="app"><b>Real-world example:</b> a "dark mode" toggle in settings whose Flow is collected by the whole app, so the theme updates immediately everywhere the moment the preference changes — no manual broadcast needed.</div>
+<p><b>Interview points:</b> know why DataStore replaced SharedPreferences — it's fully asynchronous (no main-thread disk I/O risk) and Flow-based rather than relying on a synchronous, listener-based API.</p>
+<div class="connect"><b>Connects to →</b> Flow (its read API); Delegated properties (the dataStore by ... declaration).</div>`},
+]},
+{id:"an-di", title:"Dependency Injection (Hilt / Koin)", html:`
+<h2>Android → Dependency Injection</h2>
+<p class="tag">Tier 5 · Critical</p>
+<div class="def"><b>Definition:</b> instead of a class constructing its own dependencies (a Repository creating its own Retrofit instance), they're supplied ("injected") from outside — usually by a DI framework that builds and manages a graph of objects and their lifetimes. Hilt (built on Dagger) and Koin are the two dominant Android options.</div>
+<pre><code>// Hilt
+@HiltAndroidApp class MyApp : Application()
+
+@Module @InstallIn(SingletonComponent::class)
+object NetworkModule {
+    @Provides @Singleton
+    fun provideApi(): ApiService = Retrofit.Builder()/* ... */.build().create(ApiService::class.java)
+}
+
+@HiltViewModel
+class UserViewModel @Inject constructor(private val repo: UserRepository) : ViewModel()</code></pre>
+<div class="app"><b>Real-world example:</b> swapping a real ApiService for a fake one in tests just by providing a different Module — the ViewModel's code never changes because it only depends on the injected interface.</div>
+<p><b>Interview points:</b> explain the core benefit — decoupling + testability (a class depending on an interface can be given a fake in tests without touching its code) — and know Hilt is compile-time/annotation-based (faster, more setup) versus Koin being a lighter runtime DSL.</p>
+<div class="connect"><b>Connects to →</b> Interfaces (what gets injected); Application Class (Hilt hooks in via @HiltAndroidApp); ViewModel (constructor injection).</div>`},
+{id:"an-workmanager", title:"WorkManager", html:`
+<h2>Android → WorkManager</h2>
+<p class="tag">Tier 5 · Good to know</p>
+<div class="def"><b>Definition:</b> Jetpack's API for deferrable, guaranteed background work that must run even if the app closes or the device restarts — distinct from coroutines, which only run while their scope is alive (e.g. tied to a ViewModel or app process).</div>
+<pre><code>class UploadWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, params) {
+    override suspend fun doWork(): Result {
+        return try {
+            uploadPendingFiles()
+            Result.success()
+        } catch (e: Exception) { Result.retry() }
+    }
+}
+val request = OneTimeWorkRequestBuilder<UploadWorker>()
+    .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+    .build()
+WorkManager.getInstance(context).enqueue(request)</code></pre>
+<div class="app"><b>Real-world example:</b> queuing a photo upload that must eventually complete even if the user closes the app immediately after tapping "upload" — WorkManager persists the request and runs it once network connectivity returns.</div>
+<p><b>Interview points:</b> know when to reach for WorkManager over a plain coroutine — anything that must survive process death and doesn't need to run immediately (uploads, periodic sync, log flushing).</p>
+<div class="connect"><b>Connects to →</b> Coroutines (CoroutineWorker wraps a suspend function); contrast with viewModelScope's shorter lifetime.</div>`},
+{id:"an-testing", title:"Testing", html:`
+<h2>Android → Testing</h2>
+<p class="tag">Tier 5 · High</p>
+<div class="def"><b>Definition:</b> Android testing splits into fast, JVM-only unit tests (business logic, ViewModels) and slower instrumented UI tests that run on a device/emulator (user-facing behaviour).</div>
+<div class="table-scroll"><table><tr><th>Tool</th><th>Tests</th><th>Runs on</th></tr>
+<tr><td>JUnit</td><td>Unit tests — functions, ViewModels, Repositories</td><td>Local JVM (fast)</td></tr>
+<tr><td>MockK / Mockito</td><td>Fake dependencies (mock a Repository interface)</td><td>Local JVM</td></tr>
+<tr><td>Espresso / Compose Testing</td><td>UI behaviour — taps, assertions on screen</td><td>Emulator/device</td></tr></table></div>
+<pre><code>@Test
+fun loadUser_updatesStateToSuccess() = runTest {          // coroutine test
+    val fakeRepo = mockk<UserRepository> {
+        coEvery { getUser(1) } returns User(1, "Ana")
+    }
+    val vm = UserViewModel(fakeRepo)
+    vm.loadUser(1)
+    assertEquals(UiState.Success(User(1, "Ana")), vm.uiState.value)
+}</code></pre>
+<div class="app"><b>Real-world example:</b> testing a ViewModel's loadUser() logic with a mocked Repository — fast, no device needed — while a separate Compose UI test verifies the actual button click updates the visible text.</div>
+<p><b>Interview points:</b> know why MVVM/Clean Architecture (interfaces + injected dependencies) is what makes unit testing possible at all — without it you can't substitute a fake Repository.</p>
+<div class="connect"><b>Connects to →</b> MVVM/Clean Architecture (testability is the payoff); Dependency Injection (swapping real for fake).</div>`},
+{id:"an-gradle", title:"Gradle &amp; Project Structure", html:`
+<h2>Android → Gradle &amp; Project Structure</h2>
+<p class="tag">Tier 5 · Good to know</p>
+<div class="def"><b>Definition:</b> Gradle is the build system that compiles, packages, and manages dependencies for an Android app, configured via Kotlin DSL (<code>build.gradle.kts</code>) files; <code>AndroidManifest.xml</code> declares the app's components and permissions; the <code>res/</code> folder holds externalized resources (strings, dimens, themes) so UI text/values aren't hardcoded.</div>
+<pre><code>// app/build.gradle.kts
+dependencies {
+    implementation("androidx.core:core-ktx:1.13.0")
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+}</code></pre>
+<pre><code>&lt;!-- AndroidManifest.xml --&gt;
+&lt;manifest&gt;
+    &lt;uses-permission android:name="android.permission.INTERNET" /&gt;
+    &lt;application android:name=".MyApp"&gt;
+        &lt;activity android:name=".MainActivity" android:exported="true"&gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name="android.intent.action.MAIN" /&gt;
+            &lt;/intent-filter&gt;
+        &lt;/activity&gt;
+    &lt;/application&gt;
+&lt;/manifest&gt;</code></pre>
+<div class="app"><b>Real-world example:</b> declaring the INTERNET permission in the Manifest and a network library version in Gradle are both required before a single Retrofit call will work — missing either causes a runtime crash or build failure respectively.</div>
+<p><b>Interview points:</b> know that every Activity must be declared in the Manifest to be launchable, and that resource externalization (strings.xml, dimens.xml) is what enables features like localization and consistent theming.</p>
+<div class="connect"><b>Connects to →</b> Application Class (registered here); Activity Lifecycle (components declared here).</div>`},
+]},
+];
+
+const tablistEl = document.getElementById('tablist');
+const panelWrap = document.getElementById('panel-wrap');
+const allTabs = [];
+
+function renderEntry(entry, container, groupColor, depth){
+  if(entry.subgroup){
+    const label = document.createElement('div');
+    label.className = 'subgroup-label';
+    label.style.paddingLeft = (0.6 + depth * 0.6) + 'rem';
+    label.textContent = entry.subgroup;
+    container.appendChild(label);
+    const wrap = document.createElement('div');
+    wrap.className = 'subgroup-wrap';
+    wrap.style.marginLeft = (depth * 0.4) + 'rem';
+    container.appendChild(wrap);
+    entry.tabs.forEach(child => renderEntry(child, wrap, groupColor, depth + 1));
+    return;
+  }
+  const btn = document.createElement('button');
+  btn.setAttribute('role','tab');
+  btn.id = 'tab-' + entry.id;
+  btn.setAttribute('aria-controls','panel-' + entry.id);
+  btn.setAttribute('aria-selected','false');
+  btn.setAttribute('tabindex','-1');
+  if(depth === 1) btn.classList.add('nested');
+  if(depth >= 2) btn.classList.add('nested2');
+  btn.style.setProperty('--tab-color', groupColor);
+  btn.innerHTML = entry.title;
+  btn.addEventListener('click', () => selectTab(entry.id));
+  container.appendChild(btn);
+
+  const panel = document.createElement('div');
+  panel.setAttribute('role','tabpanel');
+  panel.id = 'panel-' + entry.id;
+  panel.setAttribute('aria-labelledby','tab-' + entry.id);
+  panel.setAttribute('tabindex','0');
+  panel.style.setProperty('--panel-color', groupColor);
+  panel.hidden = true;
+  panel.innerHTML = entry.html;
+  panel.querySelectorAll('table').forEach(t => {
+    const rows = Array.from(t.querySelectorAll('tr'));
+    if(rows.length > 1){
+      const headers = Array.from(rows[0].children).map(c => c.textContent.trim());
+      rows.slice(1).forEach(row => {
+        Array.from(row.children).forEach((cell, i) => {
+          if(headers[i]) cell.setAttribute('data-label', headers[i]);
+        });
+      });
+    }
+    const w = document.createElement('div');
+    w.className = 'table-scroll';
+    t.parentNode.insertBefore(w, t);
+    w.appendChild(t);
+  });
+  panelWrap.appendChild(panel);
+  allTabs.push(entry.id);
+}
+
+DATA.forEach(group => {
+  const label = document.createElement('div');
+  label.className = 'group-label';
+  label.textContent = group.group;
+  tablistEl.appendChild(label);
+  group.tabs.forEach(entry => renderEntry(entry, tablistEl, group.color, 0));
+});
+
+const menuBtn = document.getElementById('menuBtn');
+const backdrop = document.getElementById('backdrop');
+const currentLabel = document.getElementById('currentLabel');
+
+function openDrawer(){
+  tablistEl.classList.add('open');
+  backdrop.classList.add('show');
+  menuBtn.setAttribute('aria-expanded','true');
+}
+function closeDrawer(){
+  tablistEl.classList.remove('open');
+  backdrop.classList.remove('show');
+  menuBtn.setAttribute('aria-expanded','false');
+}
+menuBtn.addEventListener('click', () => {
+  tablistEl.classList.contains('open') ? closeDrawer() : openDrawer();
+});
+backdrop.addEventListener('click', closeDrawer);
+
+function selectTab(id){
+  allTabs.forEach(t => {
+    const btn = document.getElementById('tab-' + t);
+    const panel = document.getElementById('panel-' + t);
+    const active = t === id;
+    btn.setAttribute('aria-selected', active ? 'true' : 'false');
+    btn.setAttribute('tabindex', active ? '0' : '-1');
+    panel.hidden = !active;
+    if(active){
+      panel.scrollTop = 0;
+      currentLabel.textContent = btn.textContent;
+      window.scrollTo(0,0);
+    }
+  });
+  if(window.innerWidth <= 800) closeDrawer();
+}
+tablistEl.addEventListener('keydown', (e) => {
+  const activeEl = document.activeElement;
+  if(!activeEl || !activeEl.id || activeEl.getAttribute('role') !== 'tab') return;
+  const idx = allTabs.indexOf(activeEl.id.replace('tab-',''));
+  if(idx === -1) return;
+  let next = null;
+  if(e.key === 'ArrowDown' || e.key === 'ArrowRight') next = allTabs[(idx+1) % allTabs.length];
+  if(e.key === 'ArrowUp' || e.key === 'ArrowLeft') next = allTabs[(idx-1+allTabs.length) % allTabs.length];
+  if(e.key === 'Home') next = allTabs[0];
+  if(e.key === 'End') next = allTabs[allTabs.length-1];
+  if(next){ e.preventDefault(); selectTab(next); document.getElementById('tab-' + next).focus(); }
+});
+document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeDrawer(); });
+selectTab('plan');
+</script>
+</body>
+</html>
